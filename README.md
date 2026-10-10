@@ -14,6 +14,12 @@ See [steps 6–10 report](reports/steps_06_to_10.md), [data audit](reports/data_
 
 ## Run the app
 
+### Check → capture again → compare
+
+DermReady now offers a capture-review workflow: inspect an original, follow the prioritized next action, then compare it with a newly captured photograph. The comparison shows focus, exposure, clipping and contrast changes with side-by-side previews. It does not alter photographs or claim clinical improvement. Permitted synthetic examples are available in the app, and the evidence panel shows frozen error rates alongside decision coverage and uncertainty.
+
+The active mode is visible immediately. A public checkout without private fitted artifacts supports capture indicators and comparison; learned suitability decisions require the artifact bundle. See [demo guide](docs/DEMO_GUIDE.md) and [submission draft](docs/SUBMISSION_DRAFT.md).
+
 Place best.pt, quality_baseline.json, and decision_policy.json from the private trained-artifact bundle in checkpoints/. Then:
 
 ```bash
@@ -90,7 +96,7 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 | src/perturbations.py | Controlled stress tests |
 | src/explain.py | Optional model visualization |
 | notebooks/ | Executable setup, audit, split, and training notebooks |
-| tests/ | 30 automated checks; trained round-trip requires private artifacts |
+| tests/ | 34 automated checks; trained round-trip requires private artifacts |
 | data/ | Local dataset and split artifacts |
 | checkpoints/ | Local model files |
 | reports/ | Audit, aggregate metrics, figures |

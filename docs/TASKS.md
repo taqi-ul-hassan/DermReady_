@@ -52,7 +52,7 @@
 - [x] Review held-out errors and limitations (reports/heldout_test.md); degradation analysis completed in reports/robustness.md.
 
 ## Optional after MVP
-- [ ] Feature classifier, Grad-CAM, adequate-sample subgroup analysis, multi-image UI.
+- [ ] Grad-CAM, adequate-sample subgroup analysis, multi-image UI. The feature classifier is implemented.
 
 ## Step 13: technical review
 - [x] Record model card, supervision limits, error review, provenance and licenses.

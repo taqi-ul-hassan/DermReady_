@@ -1,5 +1,7 @@
 # Steps 6–10 completion report
 
+> Historical stage report. Later training, held-out evaluation and robustness work are complete; see [final delivery](final_delivery.md) and [held-out results](heldout_test.md). Status statements below describe this stage only.
+
 ## Step 6: image validation and preprocessing
 
 All 1,674 train/validation image references were downloaded, checked against available object MD5, and decoded successfully. No test images were downloaded or decoded during step 6. The earlier pre-split data audit decoded six images later assigned to test, solely to verify readability; they were not used for training, feature/threshold selection, or model evaluation. Validated PNG/JPEG/still-WebP input handling, corrupt/tiny/animated input rejection, EXIF orientation, grayscale/alpha handling, and bounded file/pixel/aspect limits.

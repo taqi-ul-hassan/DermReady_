@@ -1,5 +1,7 @@
 # Prepared cohort and saved splits
 
+> Historical stage report. Later training, held-out evaluation and robustness work are complete; see [final delivery](final_delivery.md) and [held-out results](heldout_test.md). Status statements below describe this stage only.
+
 Step 5 completed. The private manifests and CSV split assignments were saved locally; the public repository contains code, aggregate counts, and reproducibility hashes only.
 
 ## Eligibility

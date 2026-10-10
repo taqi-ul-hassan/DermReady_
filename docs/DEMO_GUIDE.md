@@ -9,7 +9,18 @@ No final slide deck, presentation video, or submission is included. The applicat
 5. Upload synthetic_noise.png. It should return uncertain under the frozen policy's out-of-reference texture guard. This guard is not a general unrelated-image detector.
 6. For scientific results, show reports/heldout_test.md and reports/robustness.md. State that single-image labels are weak case-derived proxies, 61/107 baseline outputs were uncertain, and clinical adequacy is not established.
 
-## Before your final recording
+## Suggested three-minute story
+
+- 0:00–0:20: Explain the capture problem and the research-only scope.
+- 0:20–0:55: Show the active mode, upload a permitted example, and explain the primary next action.
+- 0:55–1:35: Open the comparison section. Compare synthetic_blur.png as the original with synthetic_original.png as the second input. Explicitly say this is a controlled synthetic illustration, not a real patient retake. Show the focus-proxy change and its caveat.
+- 1:35–2:15: Open the evidence section: 107 cases, 43% decision coverage, 57% uncertainty, 1/23 proxy false acceptances and the wide interval. Explain why the simpler baseline was selected on validation.
+- 2:15–2:40: Show uncertainty and explain the case-versus-single-image label limitation.
+- 2:40–3:00: State the next research step: independent expert single-image labels. Finish with the repository and attribution.
+
+For a trained demonstration, load the private fitted artifacts before recording. If using features-only mode, identify it explicitly and present the trained results as historical reported evaluation, not a live prediction. The recording itself must be captured from the actual app.
+
+## Recording preparation
 
 Close private browser tabs and notifications. Use the synthetic targets, not your personal medical photographs or SCIN case records. Keep the app local. Show the report rather than searching for a patient image that yields a desired state. All three state boundaries are checked in automated tests; there is no scripted replacement of live results.
 

@@ -1,5 +1,7 @@
 # SCIN data audit
 
+> Historical stage report. Later training, held-out evaluation and robustness work are complete; see [final delivery](final_delivery.md) and [held-out results](heldout_test.md). Status statements below describe this stage only.
+
 ## Decision
 
 GO for a small research baseline. Metadata and sample images are accessible, and label handling is explicit. Step 5 must group cases connected by shared image paths, address the missing object, and save leakage-free splits. No split or model has been produced yet.
