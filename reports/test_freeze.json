@@ -1,0 +1,12 @@
+{
+  "sha256": {
+    "best.pt": "6937bd46250360f64d6ca705f66ce9677b1036552a30cf1f37948774e20add9a",
+    "quality_baseline.json": "0ab291e8607ce065a68c64f658e56f37a6f2150da8cd4c7bcc354f76a6cdd3d4",
+    "decision_policy.json": "674a1ed688cdd26fbd9400d10d4daec58badb984386c98453a49e52bd255e468",
+    "splits/train.csv": "38bea0148db98b5bdfea3880499eb8ed97a87915b017b7a28d9b6dc1fe88ca50",
+    "splits/validation.csv": "db4790d640a3394f21abb703373cd91d8bd7e02b32a9ef9d2f0f9a2704e54c90",
+    "splits/test.csv": "65e3dcf1754cf844276055f3ed4d9dab7465685977e7d32ae507deb2f0b809ca"
+  },
+  "preferred_model": "quality_baseline",
+  "protocol": "All artifacts, splits and default model frozen before downloading held-out images. Binary threshold fixed at 0.5. Single-image view fixed to first listed path. No test tuning."
+}

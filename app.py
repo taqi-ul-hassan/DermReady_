@@ -49,7 +49,7 @@ def build_app(predictor=None):
             feedback=gr.Textbox(label='Suggested next action',lines=8,interactive=False)
         with gr.Accordion('How to interpret this result',open=False):
             detail=gr.Textbox(label='Research estimate',interactive=False)
-            gr.Markdown('Focus and exposure values are imperfect proxies. Framing and unrelated-image detection are not validated. A retake may not fix insufficient clinical information. Validation results are preliminary; the final test set has not been evaluated.')
+            gr.Markdown('Focus and exposure values are imperfect proxies. Framing and unrelated-image detection are not validated. A retake may not fix insufficient clinical information. Held-out results are limited and use case labels as a single-image proxy; clinical adequacy is not established.')
         gr.Markdown('**Upload handling:** the application does not save uploads in its dataset or logs. Gradio uses temporary upload/preview files, with cleanup configured for files older than 60 seconds, checked every 30 seconds. Clearing resets the view; browser and hosting caches may persist. This demo binds to localhost by default.')
         button.click(analyze,inputs=upload,outputs=[preview,state,indicators,feedback,detail],api_name='assess',concurrency_limit=1)
         clear.click(lambda:(None,None,'',[],'',''),outputs=[upload,preview,state,indicators,feedback,detail],api_name=False)

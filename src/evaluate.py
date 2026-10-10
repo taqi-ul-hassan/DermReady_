@@ -26,3 +26,28 @@ def wilson_interval(successes,total):
     center=(p+z*z/(2*total))/denominator
     margin=z*np.sqrt(p*(1-p)/total+z*z/(4*total*total))/denominator
     return [float(max(0,center-margin)),float(min(1,center+margin))]
+
+
+def three_state_metrics(labels, states):
+    """Case-label weak proxy; uncertain cases remain in error-rate denominators."""
+    from .feedback import RETAKE, UNCERTAIN, SUITABLE
+    y=np.asarray(labels,dtype=int);s=np.asarray(states)
+    ordered=[RETAKE,UNCERTAIN,SUITABLE]
+    if len(y)!=len(s) or not len(y) or not set(y).issubset({0,1}) or not set(s).issubset(set(ordered)):
+        raise ValueError('Nonempty matching labels and supported states required')
+    n0=int((y==0).sum());n1=int((y==1).sum())
+    fa=int(((y==0)&(s==SUITABLE)).sum());fr=int(((y==1)&(s==RETAKE)).sum())
+    ungradable_retake=int(((y==0)&(s==RETAKE)).sum())
+    counts={state:int((s==state).sum()) for state in ordered}
+    return {'cases':len(y),'class_counts':{'ungradable':n0,'gradable':n1},'state_counts':counts,
+            'matrix_rows_actual_0_1_cols_retake_uncertain_suitable':[[int(((y==label)&(s==state)).sum()) for state in ordered] for label in [0,1]],
+            'false_acceptance_count':fa,'false_acceptance_rate_all_ungradable':fa/n0 if n0 else None,
+            'false_acceptance_wilson95':wilson_interval(fa,n0),
+            'false_rejection_count':fr,'false_rejection_rate_all_gradable':fr/n1 if n1 else None,
+            'false_rejection_wilson95':wilson_interval(fr,n1),
+            'ungradable_retake_recall':ungradable_retake/n0 if n0 else None,
+            'uncertainty_fraction':counts[UNCERTAIN]/len(y),
+            'decision_coverage':(counts[RETAKE]+counts[SUITABLE])/len(y),
+            'accepted_ungradable_fraction':fa/counts[SUITABLE] if counts[SUITABLE] else None,
+            'denominators':'False acceptance and retake recall: all ungradable cases. False rejection: all gradable cases. Coverage: all cases. Accepted contamination: all suitable outputs. Uncertain outputs remain in total/class denominators.',
+            'interpretation':'Three-state recall counts explicit retake only; uncertainty is not a correct rejection. Binary F1/balanced accuracy are reported separately at fixed 0.5.'}

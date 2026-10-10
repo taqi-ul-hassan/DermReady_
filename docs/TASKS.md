@@ -45,11 +45,11 @@
 - [ ] Verify external hosting retention/cache behavior before public deployment (not part of local MVP).
 
 ## Steps 11 and 12: evaluation
-- [ ] Freeze policy and evaluate held-out cases and single-image behavior.
-- [ ] Save confusion matrix, ungradable recall, false acceptance/rejection, F1, balanced accuracy.
-- [ ] Define denominators for three-state metrics and report coverage.
+- [x] Freeze policy and evaluate held-out cases and single-image behavior.
+- [x] Save confusion matrix, ungradable recall, false acceptance/rejection, F1, balanced accuracy.
+- [x] Define denominators for three-state metrics and report coverage.
 - [ ] Evaluate at least two controlled degradations and save plots.
-- [ ] Review errors and limitations.
+- [x] Review held-out errors and limitations (reports/heldout_test.md); degradation analysis remains step 12.
 
 ## Optional after MVP
 - [ ] Feature classifier, Grad-CAM, adequate-sample subgroup analysis, multi-image UI.

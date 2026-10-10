@@ -1,0 +1,228 @@
+{
+  "split": "test",
+  "cases": 107,
+  "image_references": 299,
+  "frozen_artifacts": {
+    "sha256": {
+      "best.pt": "6937bd46250360f64d6ca705f66ce9677b1036552a30cf1f37948774e20add9a",
+      "quality_baseline.json": "0ab291e8607ce065a68c64f658e56f37a6f2150da8cd4c7bcc354f76a6cdd3d4",
+      "decision_policy.json": "674a1ed688cdd26fbd9400d10d4daec58badb984386c98453a49e52bd255e468",
+      "splits/train.csv": "38bea0148db98b5bdfea3880499eb8ed97a87915b017b7a28d9b6dc1fe88ca50",
+      "splits/validation.csv": "db4790d640a3394f21abb703373cd91d8bd7e02b32a9ef9d2f0f9a2704e54c90",
+      "splits/test.csv": "65e3dcf1754cf844276055f3ed4d9dab7465685977e7d32ae507deb2f0b809ca"
+    },
+    "preferred_model": "quality_baseline",
+    "protocol": "All artifacts, splits and default model frozen before downloading held-out images. Binary threshold fixed at 0.5. Single-image view fixed to first listed path. No test tuning."
+  },
+  "selected_default_model": "quality_baseline",
+  "class_order": [
+    "ungradable",
+    "gradable"
+  ],
+  "case_binary": {
+    "cnn": {
+      "unit": "case",
+      "threshold": 0.5,
+      "cases": 107,
+      "class_counts": {
+        "ungradable": 23,
+        "gradable": 84
+      },
+      "ungradable_recall": 0.4782608695652174,
+      "false_acceptance_rate": 0.5217391304347826,
+      "gradable_acceptance_rate": 0.7261904761904762,
+      "false_rejection_rate": 0.27380952380952384,
+      "f1_ungradable": 0.38596491228070173,
+      "balanced_accuracy": 0.6022256728778468,
+      "roc_auc_gradable": 0.7013457556935818,
+      "pr_auc_ungradable": 0.4321223227696845,
+      "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+        [
+          11,
+          12
+        ],
+        [
+          23,
+          61
+        ]
+      ]
+    },
+    "quality_baseline": {
+      "unit": "case",
+      "threshold": 0.5,
+      "cases": 107,
+      "class_counts": {
+        "ungradable": 23,
+        "gradable": 84
+      },
+      "ungradable_recall": 0.5217391304347826,
+      "false_acceptance_rate": 0.4782608695652174,
+      "gradable_acceptance_rate": 0.8214285714285714,
+      "false_rejection_rate": 0.17857142857142858,
+      "f1_ungradable": 0.48,
+      "balanced_accuracy": 0.6715838509316769,
+      "roc_auc_gradable": 0.6449275362318841,
+      "pr_auc_ungradable": 0.363892816709929,
+      "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+        [
+          12,
+          11
+        ],
+        [
+          15,
+          69
+        ]
+      ]
+    }
+  },
+  "single_image_weak_proxy": {
+    "cnn": {
+      "binary_at_0_5": {
+        "unit": "case",
+        "threshold": 0.5,
+        "cases": 107,
+        "class_counts": {
+          "ungradable": 23,
+          "gradable": 84
+        },
+        "ungradable_recall": 0.5652173913043478,
+        "false_acceptance_rate": 0.43478260869565216,
+        "gradable_acceptance_rate": 0.6547619047619048,
+        "false_rejection_rate": 0.34523809523809523,
+        "f1_ungradable": 0.4,
+        "balanced_accuracy": 0.6099896480331263,
+        "roc_auc_gradable": 0.7122153209109731,
+        "pr_auc_ungradable": 0.4358402879160837,
+        "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+          [
+            13,
+            10
+          ],
+          [
+            29,
+            55
+          ]
+        ]
+      },
+      "pipeline": {
+        "cases": 107,
+        "class_counts": {
+          "ungradable": 23,
+          "gradable": 84
+        },
+        "state_counts": {
+          "may need a retake": 41,
+          "uncertain": 54,
+          "likely suitable for review": 12
+        },
+        "matrix_rows_actual_0_1_cols_retake_uncertain_suitable": [
+          [
+            13,
+            10,
+            0
+          ],
+          [
+            28,
+            44,
+            12
+          ]
+        ],
+        "false_acceptance_count": 0,
+        "false_acceptance_rate_all_ungradable": 0.0,
+        "false_acceptance_wilson95": [
+          0.0,
+          0.14311661845042686
+        ],
+        "false_rejection_count": 28,
+        "false_rejection_rate_all_gradable": 0.3333333333333333,
+        "false_rejection_wilson95": [
+          0.24177214000720681,
+          0.4394717694643464
+        ],
+        "ungradable_retake_recall": 0.5652173913043478,
+        "uncertainty_fraction": 0.5046728971962616,
+        "decision_coverage": 0.4953271028037383,
+        "accepted_ungradable_fraction": 0.0,
+        "denominators": "False acceptance and retake recall: all ungradable cases. False rejection: all gradable cases. Coverage: all cases. Accepted contamination: all suitable outputs. Uncertain outputs remain in total/class denominators.",
+        "interpretation": "Three-state recall counts explicit retake only; uncertainty is not a correct rejection. Binary F1/balanced accuracy are reported separately at fixed 0.5."
+      }
+    },
+    "quality_baseline": {
+      "binary_at_0_5": {
+        "unit": "case",
+        "threshold": 0.5,
+        "cases": 107,
+        "class_counts": {
+          "ungradable": 23,
+          "gradable": 84
+        },
+        "ungradable_recall": 0.2608695652173913,
+        "false_acceptance_rate": 0.7391304347826086,
+        "gradable_acceptance_rate": 0.8333333333333334,
+        "false_rejection_rate": 0.16666666666666666,
+        "f1_ungradable": 0.27906976744186046,
+        "balanced_accuracy": 0.5471014492753623,
+        "roc_auc_gradable": 0.5709109730848861,
+        "pr_auc_ungradable": 0.2545985676009155,
+        "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+          [
+            6,
+            17
+          ],
+          [
+            14,
+            70
+          ]
+        ]
+      },
+      "pipeline": {
+        "cases": 107,
+        "class_counts": {
+          "ungradable": 23,
+          "gradable": 84
+        },
+        "state_counts": {
+          "may need a retake": 34,
+          "uncertain": 61,
+          "likely suitable for review": 12
+        },
+        "matrix_rows_actual_0_1_cols_retake_uncertain_suitable": [
+          [
+            9,
+            13,
+            1
+          ],
+          [
+            25,
+            48,
+            11
+          ]
+        ],
+        "false_acceptance_count": 1,
+        "false_acceptance_rate_all_ungradable": 0.043478260869565216,
+        "false_acceptance_wilson95": [
+          0.007716666143453149,
+          0.20991155070258877
+        ],
+        "false_rejection_count": 25,
+        "false_rejection_rate_all_gradable": 0.2976190476190476,
+        "false_rejection_wilson95": [
+          0.21044818243737515,
+          0.4024908504923681
+        ],
+        "ungradable_retake_recall": 0.391304347826087,
+        "uncertainty_fraction": 0.5700934579439252,
+        "decision_coverage": 0.42990654205607476,
+        "accepted_ungradable_fraction": 0.08333333333333333,
+        "denominators": "False acceptance and retake recall: all ungradable cases. False rejection: all gradable cases. Coverage: all cases. Accepted contamination: all suitable outputs. Uncertain outputs remain in total/class denominators.",
+        "interpretation": "Three-state recall counts explicit retake only; uncertainty is not a correct rejection. Binary F1/balanced accuracy are reported separately at fixed 0.5."
+      }
+    }
+  },
+  "limitations": [
+    "Single-image labels inherit case labels; these are not definitive image-level suitability labels.",
+    "Only 23 ungradable held-out cases; intervals are wide. No clinical safety or diagnosis claim.",
+    "The test cohort is now consumed for final reporting. Future changes require new independent evaluation.",
+    "Thresholds and default model remain validation-selected; test outcomes do not change the app."
+  ]
+}

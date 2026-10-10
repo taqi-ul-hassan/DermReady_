@@ -6,9 +6,9 @@ Image-suitability quality gate for dermatology photography.
 
 ## Status
 
-Steps 1–10 are implemented: repository, environments, SCIN audit, saved grouped splits, preprocessing, quality baseline, pretrained MobileNet training, validation-selected three-state policies, and a working local Gradio app.
+Steps 1–11 are implemented: repository, environments, SCIN audit, saved grouped splits, preprocessing, quality baseline, pretrained MobileNet training, validation-selected three-state policies, and a working local Gradio app.
 
-The default is the quality-feature baseline because the full guarded validation policy had fewer false acceptances. A trained MobileNet option is available. Validation performance is weak, single-image labels are case-derived proxies, and clinical adequacy is not established. The test split has not been used for training, threshold selection, or model evaluation; final held-out evaluation remains step 11.
+The default is the quality-feature baseline because the full guarded validation policy had fewer false acceptances. A trained MobileNet option is available. Validation performance is weak, single-image labels are case-derived proxies, and clinical adequacy is not established. The frozen held-out evaluation is complete on 107 cases; test results did not alter training, thresholds, or the default model. The default single-image pipeline had 1/23 weak-proxy false acceptances, 25/84 false rejections, and 61/107 uncertain outputs. See [held-out evaluation](reports/heldout_test.md). Controlled degradations remain step 12.
 
 See [steps 6–10 report](reports/steps_06_to_10.md), [data audit](reports/data_audit.md), and [split summary](reports/split_summary.md).
 
