@@ -1,0 +1,22 @@
+{
+  "fresh_environment": true,
+  "inherited_site_packages": false,
+  "python": "3.12.14",
+  "platform": "Linux CPU",
+  "installed_from": "requirements-cpu.lock.txt plus official CPU index",
+  "pip_check": "passed",
+  "pytest": {
+    "passed": 30,
+    "skipped": 0
+  },
+  "real_artifact_roundtrip": "passed",
+  "local_http_upload": "passed",
+  "private_path_http_status": 403,
+  "test_data_copied_to_fresh_workspace": false,
+  "full_training_repeated": false,
+  "windows_user_report": "working installation; not automated maintainer verification",
+  "remote_ci_execution": "not inspected",
+  "ui_screenshot": "blocked: cloud browser cannot reach workspace localhost",
+  "final_presentation": "excluded by user",
+  "public_deployment": false
+}

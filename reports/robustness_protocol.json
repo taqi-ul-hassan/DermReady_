@@ -1,0 +1,31 @@
+{
+  "cases": "all held-out cases, first-listed image; paired within case",
+  "conditions": {
+    "original": {
+      "kind": "identity",
+      "value": 0
+    },
+    "blur_2": {
+      "kind": "gaussian_blur",
+      "value": 2
+    },
+    "blur_5": {
+      "kind": "gaussian_blur",
+      "value": 5
+    },
+    "dark_035": {
+      "kind": "brightness_multiplier",
+      "value": 0.35
+    },
+    "bright_180": {
+      "kind": "brightness_multiplier",
+      "value": 1.8
+    }
+  },
+  "frozen_sha256": {
+    "best.pt": "6937bd46250360f64d6ca705f66ce9677b1036552a30cf1f37948774e20add9a",
+    "quality_baseline.json": "0ab291e8607ce065a68c64f658e56f37a6f2150da8cd4c7bcc354f76a6cdd3d4",
+    "decision_policy.json": "674a1ed688cdd26fbd9400d10d4daec58badb984386c98453a49e52bd255e468"
+  },
+  "interpretation": "Controlled edits have no new clinical suitability labels. Report state transitions, capture proxies and score sensitivity, not corruption accuracy. No model, policy or default changes."
+}

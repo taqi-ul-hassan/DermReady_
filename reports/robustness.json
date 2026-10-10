@@ -1,0 +1,495 @@
+{
+  "cases": 107,
+  "protocol": {
+    "cases": "all held-out cases, first-listed image; paired within case",
+    "conditions": {
+      "original": {
+        "kind": "identity",
+        "value": 0
+      },
+      "blur_2": {
+        "kind": "gaussian_blur",
+        "value": 2
+      },
+      "blur_5": {
+        "kind": "gaussian_blur",
+        "value": 5
+      },
+      "dark_035": {
+        "kind": "brightness_multiplier",
+        "value": 0.35
+      },
+      "bright_180": {
+        "kind": "brightness_multiplier",
+        "value": 1.8
+      }
+    },
+    "frozen_sha256": {
+      "best.pt": "6937bd46250360f64d6ca705f66ce9677b1036552a30cf1f37948774e20add9a",
+      "quality_baseline.json": "0ab291e8607ce065a68c64f658e56f37a6f2150da8cd4c7bcc354f76a6cdd3d4",
+      "decision_policy.json": "674a1ed688cdd26fbd9400d10d4daec58badb984386c98453a49e52bd255e468"
+    },
+    "interpretation": "Controlled edits have no new clinical suitability labels. Report state transitions, capture proxies and score sensitivity, not corruption accuracy. No model, policy or default changes."
+  },
+  "models": {
+    "quality_baseline": {
+      "original": {
+        "state_counts": {
+          "may need a retake": 34,
+          "uncertain": 61,
+          "likely suitable for review": 12
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            34,
+            0,
+            0
+          ],
+          [
+            0,
+            61,
+            0
+          ],
+          [
+            0,
+            0,
+            12
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 12,
+        "median_score": 0.7604950499745068,
+        "median_paired_score_change": 0.0,
+        "feature_medians": {
+          "blur_log_laplacian": 4.5796518596181,
+          "brightness_mean": 0.4986555576324463,
+          "contrast_std": 0.2043078988790512,
+          "dark_fraction": 0.008664449055989584,
+          "bright_fraction": 1.2715657552083333e-06,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 7,
+          "dark": 6,
+          "bright": 13,
+          "resolution": 1,
+          "unusual_texture": 1
+        }
+      },
+      "blur_2": {
+        "state_counts": {
+          "may need a retake": 63,
+          "uncertain": 44,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            34,
+            0,
+            0
+          ],
+          [
+            29,
+            32,
+            0
+          ],
+          [
+            0,
+            12,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.6211084230303231,
+        "median_paired_score_change": -0.12757479400939076,
+        "feature_medians": {
+          "blur_log_laplacian": 3.6646062682350617,
+          "brightness_mean": 0.49862727522850037,
+          "contrast_std": 0.20080585777759552,
+          "dark_fraction": 0.006409962972005208,
+          "bright_fraction": 0.0,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 33,
+          "dark": 6,
+          "bright": 12,
+          "resolution": 1,
+          "unusual_texture": 0
+        }
+      },
+      "blur_5": {
+        "state_counts": {
+          "may need a retake": 102,
+          "uncertain": 5,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            34,
+            0,
+            0
+          ],
+          [
+            57,
+            4,
+            0
+          ],
+          [
+            11,
+            1,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.27333891947959654,
+        "median_paired_score_change": -0.42283914162060277,
+        "feature_medians": {
+          "blur_log_laplacian": 2.21586759808593,
+          "brightness_mean": 0.49862995743751526,
+          "contrast_std": 0.19846628606319427,
+          "dark_fraction": 0.003223781970461095,
+          "bright_fraction": 0.0,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 103,
+          "dark": 5,
+          "bright": 12,
+          "resolution": 1,
+          "unusual_texture": 0
+        }
+      },
+      "dark_035": {
+        "state_counts": {
+          "may need a retake": 107,
+          "uncertain": 0,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            34,
+            0,
+            0
+          ],
+          [
+            61,
+            0,
+            0
+          ],
+          [
+            12,
+            0,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.02619141674083566,
+        "median_paired_score_change": -0.7338250804000691,
+        "feature_medians": {
+          "blur_log_laplacian": 2.671053214984867,
+          "brightness_mean": 0.1726878434419632,
+          "contrast_std": 0.07165084779262543,
+          "dark_fraction": 0.03996551385983264,
+          "bright_fraction": 0.0,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 86,
+          "dark": 107,
+          "bright": 0,
+          "resolution": 1,
+          "unusual_texture": 0
+        }
+      },
+      "bright_180": {
+        "state_counts": {
+          "may need a retake": 3,
+          "uncertain": 104,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            3,
+            31,
+            0
+          ],
+          [
+            0,
+            61,
+            0
+          ],
+          [
+            0,
+            12,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.9999999999677025,
+        "median_paired_score_change": 0.23756022959389278,
+        "feature_medians": {
+          "blur_log_laplacian": 5.257460554067959,
+          "brightness_mean": 0.7770037651062012,
+          "contrast_std": 0.2480408251285553,
+          "dark_fraction": 0.0021665126928020564,
+          "bright_fraction": 0.3956286112467448,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 4,
+          "dark": 3,
+          "bright": 104,
+          "resolution": 1,
+          "unusual_texture": 1
+        }
+      }
+    },
+    "cnn": {
+      "original": {
+        "state_counts": {
+          "may need a retake": 41,
+          "uncertain": 54,
+          "likely suitable for review": 12
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            41,
+            0,
+            0
+          ],
+          [
+            0,
+            54,
+            0
+          ],
+          [
+            0,
+            0,
+            12
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 12,
+        "median_score": 0.5768617987632751,
+        "median_paired_score_change": 0.0,
+        "feature_medians": {
+          "blur_log_laplacian": 4.5796518596181,
+          "brightness_mean": 0.4986555576324463,
+          "contrast_std": 0.2043078988790512,
+          "dark_fraction": 0.008664449055989584,
+          "bright_fraction": 1.2715657552083333e-06,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 7,
+          "dark": 6,
+          "bright": 13,
+          "resolution": 1,
+          "unusual_texture": 1
+        }
+      },
+      "blur_2": {
+        "state_counts": {
+          "may need a retake": 58,
+          "uncertain": 47,
+          "likely suitable for review": 2
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            41,
+            0,
+            0
+          ],
+          [
+            17,
+            37,
+            0
+          ],
+          [
+            0,
+            10,
+            2
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 2,
+        "median_score": 0.4741358757019043,
+        "median_paired_score_change": -0.07441622018814087,
+        "feature_medians": {
+          "blur_log_laplacian": 3.6646062682350617,
+          "brightness_mean": 0.49862727522850037,
+          "contrast_std": 0.20080585777759552,
+          "dark_fraction": 0.006409962972005208,
+          "bright_fraction": 0.0,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 33,
+          "dark": 6,
+          "bright": 12,
+          "resolution": 1,
+          "unusual_texture": 0
+        }
+      },
+      "blur_5": {
+        "state_counts": {
+          "may need a retake": 98,
+          "uncertain": 9,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            41,
+            0,
+            0
+          ],
+          [
+            50,
+            4,
+            0
+          ],
+          [
+            7,
+            5,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.2390914112329483,
+        "median_paired_score_change": -0.27346593141555786,
+        "feature_medians": {
+          "blur_log_laplacian": 2.21586759808593,
+          "brightness_mean": 0.49862995743751526,
+          "contrast_std": 0.19846628606319427,
+          "dark_fraction": 0.003223781970461095,
+          "bright_fraction": 0.0,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 103,
+          "dark": 5,
+          "bright": 12,
+          "resolution": 1,
+          "unusual_texture": 0
+        }
+      },
+      "dark_035": {
+        "state_counts": {
+          "may need a retake": 102,
+          "uncertain": 5,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            41,
+            0,
+            0
+          ],
+          [
+            52,
+            2,
+            0
+          ],
+          [
+            9,
+            3,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.1626558005809784,
+        "median_paired_score_change": -0.3267187178134918,
+        "feature_medians": {
+          "blur_log_laplacian": 2.671053214984867,
+          "brightness_mean": 0.1726878434419632,
+          "contrast_std": 0.07165084779262543,
+          "dark_fraction": 0.03996551385983264,
+          "bright_fraction": 0.0,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 86,
+          "dark": 107,
+          "bright": 0,
+          "resolution": 1,
+          "unusual_texture": 0
+        }
+      },
+      "bright_180": {
+        "state_counts": {
+          "may need a retake": 81,
+          "uncertain": 26,
+          "likely suitable for review": 0
+        },
+        "transition_rows_original_cols_edited_retake_uncertain_suitable": [
+          [
+            39,
+            2,
+            0
+          ],
+          [
+            39,
+            15,
+            0
+          ],
+          [
+            3,
+            9,
+            0
+          ]
+        ],
+        "original_suitable_count": 12,
+        "original_suitable_still_suitable": 0,
+        "median_score": 0.36790600419044495,
+        "median_paired_score_change": -0.1679265797138214,
+        "feature_medians": {
+          "blur_log_laplacian": 5.257460554067959,
+          "brightness_mean": 0.7770037651062012,
+          "contrast_std": 0.2480408251285553,
+          "dark_fraction": 0.0021665126928020564,
+          "bright_fraction": 0.3956286112467448,
+          "min_dimension_log": 6.698268054115413,
+          "megapixels_log": 0.628501987066414,
+          "aspect_ratio": 1.3333333333333333
+        },
+        "flag_counts": {
+          "focus": 4,
+          "dark": 3,
+          "bright": 104,
+          "resolution": 1,
+          "unusual_texture": 1
+        }
+      }
+    }
+  },
+  "limits": [
+    "Original case gradability labels are not ground truth for edited images.",
+    "Blur radius is in source-image pixels; response depends on original resolution.",
+    "No tuning or safety guarantee. Synthetic edits do not cover real camera or patient variation."
+  ]
+}

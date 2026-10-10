@@ -1,0 +1,25 @@
+{
+  "python": "3.12.14",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "packages": {
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.1+cpu",
+    "timm": "1.0.30",
+    "pandas": "3.0.6",
+    "numpy": "2.5.2",
+    "Pillow": "12.3.0",
+    "opencv-python-headless": "5.0.0.93",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "gradio": "6.30.0",
+    "datasets": "5.1.0",
+    "PyYAML": "6.0.3",
+    "pytest": "9.1.1",
+    "socksio": "1.0.0"
+  },
+  "errors": [],
+  "cpu_forward_pass": "passed (random weights; not a gradability prediction)",
+  "cuda_available": false,
+  "gradio_construction": "passed (server not launched)",
+  "passed": true
+}

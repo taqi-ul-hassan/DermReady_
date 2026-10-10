@@ -48,15 +48,25 @@
 - [x] Freeze policy and evaluate held-out cases and single-image behavior.
 - [x] Save confusion matrix, ungradable recall, false acceptance/rejection, F1, balanced accuracy.
 - [x] Define denominators for three-state metrics and report coverage.
-- [ ] Evaluate at least two controlled degradations and save plots.
-- [x] Review held-out errors and limitations (reports/heldout_test.md); degradation analysis remains step 12.
+- [x] Evaluate blur and two lighting degradations on frozen held-out inputs; save plots.
+- [x] Review held-out errors and limitations (reports/heldout_test.md); degradation analysis completed in reports/robustness.md.
 
 ## Optional after MVP
 - [ ] Feature classifier, Grad-CAM, adequate-sample subgroup analysis, multi-image UI.
 
-## Steps 14 and 15: delivery
-- [ ] Test grouped splits, preprocessing, thresholds, invalid files, and CPU behavior.
-- [ ] Finish reproduction instructions, citations, results, and limitations.
-- [ ] Reproduce from a fresh environment and inspect tracked files.
-- [ ] Prepare permitted examples, demo, screenshots, and backup recording.
-- [ ] Confirm current submission requirements and submit.
+## Step 13: technical review
+- [x] Record model card, supervision limits, error review, provenance and licenses.
+- [x] Keep models, thresholds and default unchanged after final tests.
+
+## Step 14: delivery checks
+- [x] Test grouped splits, preprocessing, thresholds, invalid files, and CPU behavior.
+- [x] Finish reproduction instructions, citations, results, and limitations.
+- [x] Install CPU lock in a new environment; test trained artifacts/API; inspect publication allowlist.
+- [x] Prepare original synthetic examples, demo guide, result plots, and Windows launch helpers.
+- [x] Recheck published submission requirements and record persistent deadline conflict.
+
+## Step 15: final presentation — excluded by user
+- [ ] Capture final screenshots and presentation/demo recording.
+- [ ] Create final presentation and complete official portal submission.
+
+Screenshot capture was unavailable: the cloud browser could not reach the workspace local app. No fabricated screenshots or recording are supplied. The local app/API passed fresh-environment tests. Optional research enhancements and external hosting remain outside the requested local MVP.

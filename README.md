@@ -6,9 +6,9 @@ Image-suitability quality gate for dermatology photography.
 
 ## Status
 
-Steps 1–11 are implemented: repository, environments, SCIN audit, saved grouped splits, preprocessing, quality baseline, pretrained MobileNet training, validation-selected three-state policies, and a working local Gradio app.
+Steps 1–14 are implemented (final presentation/submission excluded): repository, environments, SCIN audit, saved grouped splits, preprocessing, quality baseline, pretrained MobileNet training, validation-selected three-state policies, and a working local Gradio app.
 
-The default is the quality-feature baseline because the full guarded validation policy had fewer false acceptances. A trained MobileNet option is available. Validation performance is weak, single-image labels are case-derived proxies, and clinical adequacy is not established. The frozen held-out evaluation is complete on 107 cases; test results did not alter training, thresholds, or the default model. The default single-image pipeline had 1/23 weak-proxy false acceptances, 25/84 false rejections, and 61/107 uncertain outputs. See [held-out evaluation](reports/heldout_test.md). Controlled degradations remain step 12.
+The default is the quality-feature baseline because the full guarded validation policy had fewer false acceptances. A trained MobileNet option is available. Validation performance is weak, single-image labels are case-derived proxies, and clinical adequacy is not established. The frozen held-out evaluation is complete on 107 cases; test results did not alter training, thresholds, or the default model. The default single-image pipeline had 1/23 weak-proxy false acceptances, 25/84 false rejections, and 61/107 uncertain outputs. See [held-out evaluation](reports/heldout_test.md). Controlled blur and lighting stress tests are complete; see [robustness results](reports/robustness.md).
 
 See [steps 6–10 report](reports/steps_06_to_10.md), [data audit](reports/data_audit.md), and [split summary](reports/split_summary.md).
 
@@ -23,7 +23,7 @@ python app.py --model cnn
 ```
 
 Open http://127.0.0.1:7860. Without fitted artifacts the app starts in explicitly labeled features-only mode and returns uncertain.
-See [run/reproduction guide](docs/RUN_APP.md). The [Colab training notebook](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/03_train_and_prepare_demo.ipynb) writes private artifacts to your Drive and does not publish a share link.
+See [Windows quick start](docs/WINDOWS_QUICKSTART.md), [run guide](docs/RUN_APP.md), [reproduction guide](docs/REPRODUCIBILITY.md), and [model card](docs/MODEL_CARD.md). Double-click launch_windows.bat after installing dependencies. The [Colab training notebook](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/03_train_and_prepare_demo.ipynb) writes private artifacts to your Drive and does not publish a share link.
 
 ## Goal and target users
 
@@ -47,7 +47,7 @@ SCIN ungradable labels can reflect insufficient information, multiple conditions
 
 ## Modeling decision
 
-Use case-level supervision and splitting. Preserve all image references and label provenance for each case. The planned baseline extracts per-image representations and aggregates them at case level; the implementation must be validated after schema inspection.
+Use case-level supervision and splitting. Preserve all image references and label provenance for each case. The feature baseline aggregates per-image capture measures; the CNN averages per-image embeddings before case classification. Both use case-level supervision.
 
 The MVP accepts a single image, which is less information than a multi-image case. Any score from that input must be described as a limited single-image estimate from a case-trained system and evaluated separately. Do not silently copy case labels onto images as definitive image-level labels.
 
@@ -89,8 +89,8 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 | src/feedback.py | States and supported retake guidance |
 | src/perturbations.py | Controlled stress tests |
 | src/explain.py | Optional model visualization |
-| notebooks/ | Future exploration notebooks |
-| tests/ | Future meaningful checks |
+| notebooks/ | Executable setup, audit, split, and training notebooks |
+| tests/ | 30 automated checks; trained round-trip requires private artifacts |
 | data/ | Local dataset and split artifacts |
 | checkpoints/ | Local model files |
 | reports/ | Audit, aggregate metrics, figures |

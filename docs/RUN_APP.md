@@ -49,8 +49,12 @@ Local startup binds to 127.0.0.1, enforces a 20 MB upload limit, and blocks serv
 
 SCIN supervision is case-level. The single-image policy was selected using one fixed first-listed image per validation case with its case label as weak supervision. No true image-level clinical adequacy labels were obtained. Quality measures use focus, exposure, contrast, and resolution proxies; no anatomical framing detector is implemented.
 
-Research prototype only; not a diagnosis or substitute for medical advice. Follow your clinician's instructions. Frozen final test evaluation is complete: see ../reports/heldout_test.md. Controlled corruption experiments, subgroup performance checks, and the submission/demo recording remain later steps.
+Research prototype only; not a diagnosis or substitute for medical advice. Follow your clinician's instructions. Frozen final test evaluation is complete: see ../reports/heldout_test.md. Controlled blur/lighting experiments are complete in reports/robustness.md. Subgroup assurance is not established. The final presentation/demo recording and submission are left to the user.
 
 ## Step 11: held-out evaluation
 
 After preparing private manifests and frozen artifacts, run `python scripts/evaluate_test.py`. The report records artifact/split hashes, all-image case metrics, and the unchanged single-image app policy. It refuses to overwrite an existing final report. Demo-only installations do not contain the private manifests and do not need to rerun evaluation. See [results](../reports/heldout_test.md).
+
+## Finished delivery materials
+
+See [Windows quick start](WINDOWS_QUICKSTART.md), [reproduction](REPRODUCIBILITY.md), [model card](MODEL_CARD.md), and [demo guide](DEMO_GUIDE.md). Synthetic assets in assets/demo/ contain no patient photographs. Screenshots/final recording are part of the excluded presentation step; no public app hosting was performed.

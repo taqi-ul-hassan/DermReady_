@@ -1,0 +1,14 @@
+{
+  "local_server_started": true,
+  "upload_api_success": true,
+  "result_state": "Uncertain",
+  "private_dataset_http_status": 403,
+  "private_dataset_serving_blocked": true,
+  "public_share_enabled": false,
+  "test_images_used": false,
+  "synthetic_upload_only": true,
+  "temporary_file_cleanup_config_seconds": [
+    30,
+    60
+  ]
+}
