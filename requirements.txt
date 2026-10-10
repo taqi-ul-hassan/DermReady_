@@ -1,0 +1,15 @@
+# Provisional dependencies: pin after compatibility verification in step 3.
+torch
+torchvision
+timm
+pandas
+numpy
+Pillow
+opencv-python-headless
+scikit-learn
+matplotlib
+gradio
+datasets
+PyYAML
+pytest
+# Optional Grad-CAM dependency will be added only if implemented.

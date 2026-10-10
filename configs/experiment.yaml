@@ -1,0 +1,30 @@
+# Provisional settings; no experiment has been run.
+project: DermReady
+seed: 42
+data:
+  source: SCIN
+  raw_dir: data/raw
+  processed_dir: data/processed
+  split_dir: data/splits
+  unit: case
+  consensus_policy: majority_with_at_least_two_votes_exclude_ties
+  split_fractions: {train: 0.70, validation: 0.15, test: 0.15}
+model:
+  architecture: mobilenetv3_small
+  pretrained: true
+  num_classes: 2
+  case_aggregation: mean_image_embeddings
+  image_size: 224
+training:
+  batch_size: 16
+  epochs: 5
+  learning_rate: 0.001
+  checkpoint_dir: checkpoints
+decision:
+  score_semantics: uncalibrated_gradable_score
+  retake_below: null
+  suitable_above: null
+  thresholds_selected_on: validation
+  status: not_selected
+privacy:
+  retain_uploads: false
