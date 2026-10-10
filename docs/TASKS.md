@@ -13,19 +13,19 @@
 - [x] Create local Python 3.12 virtual environment, verify dependencies, and pin compatible versions.
 - [x] Save full CPU lock snapshot, environment report, and repeatable checker.
 - [x] Prepare Colab notebook with GPU checks and persistent Drive output configuration.
-- [ ] Run Colab notebook with a signed-in account; confirm GPU execution and Drive write test.
+- [x] User reports completing Colab setup notebook; remote outputs not independently inspected.
 - [x] Verify synthetic MobileNet CPU execution, OpenCV, and Gradio construction.
 - [ ] Verify real checkpoint loading/CPU inference after model implementation.
 
 ## Step 4: data audit
-- [ ] Read current SCIN schema, license, and sample records.
-- [ ] Verify label unit, fields, images, missingness, and disagreement.
-- [ ] Write reports/data_audit.md; decide go/no-go at hour 2.
+- [x] Read current SCIN schema, license, and sample records.
+- [x] Verify label unit, fields, images, missingness, and disagreement.
+- [x] Write reports/data_audit.md; decide go/no-go at hour 2.
 
 ## Step 5: labels and splits
 - [ ] Implement and validate consensus policy.
 - [ ] Build local manifests preserving case IDs and label provenance.
-- [ ] Save case-level train/validation/test splits; check overlap and duplicates.
+- [ ] Save splits grouped by connected cases/shared image paths; handle missing objects, then check case/image overlap.
 
 ## Steps 6 and 7: preprocessing and baseline
 - [ ] Validate uploads, correct orientation, preserve originals.

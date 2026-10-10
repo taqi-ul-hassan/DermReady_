@@ -1,0 +1,213 @@
+{
+  "source": "Official SCIN GCS CSVs; full metadata and full object inventory, sampled decoding",
+  "seed": 42,
+  "provenance": {
+    "scin_cases.csv": {
+      "url": "https://storage.googleapis.com/dx-scin-public-data/dataset/scin_cases.csv",
+      "sha256": "7923ee9ba9775af413ca115c4587dc1bd32259d7936aa97fa80d88dd616ca3c3",
+      "bytes": 1293926,
+      "etag": "\"2260e1766404218b697fb098728dbb24\""
+    },
+    "scin_labels.csv": {
+      "url": "https://storage.googleapis.com/dx-scin-public-data/dataset/scin_labels.csv",
+      "sha256": "616ad03c24c304f5f7ef01b4116e4d3274f1c71c9b19a0e3d5620698b081a9fe",
+      "bytes": 895734,
+      "etag": "\"589aa59d3d4ad906eec704b5f76c5d16\""
+    }
+  },
+  "schema_review": {
+    "schema_blob_sha": "4e95a6f01bb8d22586a4274cf173530123b464fc",
+    "license_blob_sha": "b73abe395e1a01467c215f456fe1b95f80a12a49"
+  },
+  "case_rows": 5033,
+  "label_rows": 5033,
+  "unique_case_ids": 5033,
+  "metadata_columns": 57,
+  "label_columns": 17,
+  "merge_counts": {
+    "both": 5033,
+    "left_only": 0,
+    "right_only": 0
+  },
+  "labels_without_case": 0,
+  "release_counts": {
+    "1.0.0": 5033
+  },
+  "image_reference_count": 10407,
+  "unique_image_paths": 10380,
+  "images_per_case": {
+    "1": 1948,
+    "3": 2289,
+    "2": 796
+  },
+  "missing_object_reference_count": 1,
+  "inventory_objects": 10379,
+  "duplicate_content_groups": 0,
+  "duplicate_content_unique_paths": 0,
+  "duplicate_detection_scope": "GCS object MD5 equality among unique referenced paths; not perceptual duplicates",
+  "raw_gradability_counts": {
+    "dermatologist_gradable_for_skin_condition_1": {
+      "DEFAULT_YES_IMAGE_QUALITY_SUFFICIENT": 3049,
+      "NO_IMAGE_QUALITY_INSUFFICIENT": 1925,
+      "YES_IMAGE_QUALITY_SUFFICIENT_NO_DISCERNIBLE_PATHOLOGY": 59
+    },
+    "dermatologist_gradable_for_skin_condition_2": {
+      "<missing>": 4317,
+      "DEFAULT_YES_IMAGE_QUALITY_SUFFICIENT": 464,
+      "NO_IMAGE_QUALITY_INSUFFICIENT": 245,
+      "YES_IMAGE_QUALITY_SUFFICIENT_NO_DISCERNIBLE_PATHOLOGY": 7
+    },
+    "dermatologist_gradable_for_skin_condition_3": {
+      "<missing>": 4317,
+      "DEFAULT_YES_IMAGE_QUALITY_SUFFICIENT": 461,
+      "NO_IMAGE_QUALITY_INSUFFICIENT": 243,
+      "YES_IMAGE_QUALITY_SUFFICIENT_NO_DISCERNIBLE_PATHOLOGY": 12
+    }
+  },
+  "strict_policy": {
+    "min_valid_votes": 2,
+    "status_counts": {
+      "insufficient_votes": 4319,
+      "eligible": 710,
+      "tie": 4
+    },
+    "eligible_class_counts": {
+      "gradable": 557,
+      "ungradable": 153
+    },
+    "valid_vote_count_distribution": {
+      "1": 4262,
+      "3": 697,
+      "0": 57,
+      "2": 17
+    },
+    "disagreement_cases": 346,
+    "multi_valid_vote_cases": 714
+  },
+  "single_vote_policy_for_comparison_only": {
+    "min_valid_votes": 1,
+    "status_counts": {
+      "eligible": 4972,
+      "insufficient_votes": 57,
+      "tie": 4
+    },
+    "eligible_class_counts": {
+      "gradable": 3003,
+      "ungradable": 1969
+    },
+    "valid_vote_count_distribution": {
+      "1": 4262,
+      "3": 697,
+      "0": 57,
+      "2": 17
+    },
+    "disagreement_cases": 346,
+    "multi_valid_vote_cases": 714
+  },
+  "missingness_counts": {
+    "case_id": 0,
+    "source": 0,
+    "release": 0,
+    "year": 0,
+    "age_group": 1,
+    "sex_at_birth": 1,
+    "fitzpatrick_skin_type": 2530,
+    "race_ethnicity_american_indian_or_alaska_native": 4960,
+    "race_ethnicity_asian": 4937,
+    "race_ethnicity_black_or_african_american": 4735,
+    "race_ethnicity_hispanic_latino_or_spanish_origin": 4743,
+    "race_ethnicity_middle_eastern_or_north_african": 5026,
+    "race_ethnicity_native_hawaiian_or_pacific_islander": 5029,
+    "race_ethnicity_white": 3160,
+    "race_ethnicity_other_race": 5017,
+    "race_ethnicity_prefer_not_to_answer": 4999,
+    "textures_raised_or_bumpy": 2118,
+    "textures_flat": 4211,
+    "textures_rough_or_flaky": 4001,
+    "textures_fluid_filled": 4404,
+    "body_parts_head_or_neck": 4296,
+    "body_parts_arm": 3326,
+    "body_parts_palm": 4818,
+    "body_parts_back_of_hand": 4512,
+    "body_parts_torso_front": 4238,
+    "body_parts_torso_back": 4381,
+    "body_parts_genitalia_or_groin": 4811,
+    "body_parts_buttocks": 4642,
+    "body_parts_leg": 3339,
+    "body_parts_foot_top_or_side": 4618,
+    "body_parts_foot_sole": 4929,
+    "body_parts_other": 4490,
+    "condition_symptoms_bothersome_appearance": 3503,
+    "condition_symptoms_bleeding": 4808,
+    "condition_symptoms_increasing_size": 4020,
+    "condition_symptoms_darkening": 4648,
+    "condition_symptoms_itching": 2321,
+    "condition_symptoms_burning": 4045,
+    "condition_symptoms_pain": 4299,
+    "condition_symptoms_no_relevant_experience": 4725,
+    "other_symptoms_fever": 4943,
+    "other_symptoms_chills": 4913,
+    "other_symptoms_fatigue": 4618,
+    "other_symptoms_joint_pain": 4733,
+    "other_symptoms_mouth_sores": 4937,
+    "other_symptoms_shortness_of_breath": 4894,
+    "other_symptoms_no_relevant_symptoms": 2192,
+    "related_category": 1254,
+    "condition_duration": 997,
+    "image_1_path": 0,
+    "image_2_path": 1948,
+    "image_3_path": 2744,
+    "image_1_shot_type": 0,
+    "image_2_shot_type": 1948,
+    "image_3_shot_type": 2743,
+    "combined_race": 2381,
+    "race_ethnicity_two_or_more_after_mitigation": 4950,
+    "dermatologist_gradable_for_skin_condition_1": 0,
+    "dermatologist_gradable_for_skin_condition_2": 4317,
+    "dermatologist_gradable_for_skin_condition_3": 4317,
+    "dermatologist_skin_condition_on_label_name": 0,
+    "dermatologist_skin_condition_confidence": 0,
+    "weighted_skin_condition_label": 0,
+    "dermatologist_gradable_for_fitzpatrick_skin_type_1": 0,
+    "dermatologist_gradable_for_fitzpatrick_skin_type_2": 4317,
+    "dermatologist_gradable_for_fitzpatrick_skin_type_3": 4317,
+    "dermatologist_fitzpatrick_skin_type_label_1": 731,
+    "dermatologist_fitzpatrick_skin_type_label_2": 4399,
+    "dermatologist_fitzpatrick_skin_type_label_3": 4402,
+    "gradable_for_monk_skin_tone_india": 10,
+    "gradable_for_monk_skin_tone_us": 10,
+    "monk_skin_tone_label_india": 14,
+    "monk_skin_tone_label_us": 28
+  },
+  "sample_image_checks": {
+    "selected_cases": 12,
+    "attempted_images": 35,
+    "readable_images": 35,
+    "failed_images": 0,
+    "format_counts": {
+      "PNG": 35
+    },
+    "mode_counts": {
+      "RGB": 35
+    },
+    "width_range": [
+      594,
+      1080
+    ],
+    "height_range": [
+      435,
+      1080
+    ]
+  },
+  "decision": "GO for research baseline with strict consensus; address missing objects and shared-image/case grouping in step 5",
+  "limitations": [
+    "No full-dataset image decoding",
+    "No perceptual duplicate search",
+    "Gradability is case-level and not a pure blur/exposure label",
+    "No-discernible-pathology votes excluded as semantically ambiguous",
+    "Two-vote cohort is a selected subset; do not generalize its metrics to all SCIN cases"
+  ],
+  "repeated_path_groups": 15,
+  "references_in_repeated_path_groups": 42,
+  "paths_shared_across_cases": 15
+}

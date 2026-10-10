@@ -7,7 +7,9 @@ data:
   processed_dir: data/processed
   split_dir: data/splits
   unit: case
-  consensus_policy: majority_with_at_least_two_votes_exclude_ties
+  consensus_policy: majority_two_unambiguous_votes_exclude_ties
+  ambiguous_vote_policy: exclude_no_discernible_pathology
+  duplicate_policy: group_connected_cases_by_shared_image_path
   split_fractions: {train: 0.70, validation: 0.15, test: 0.15}
 model:
   architecture: mobilenetv3_small

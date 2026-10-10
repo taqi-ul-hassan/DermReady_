@@ -1,6 +1,6 @@
 # Data and privacy plan
 
-SCIN access and licensing have not yet been reviewed. Read the current official terms before use. The MIT code license does not cover SCIN or pretrained model artifacts.
+SCIN access and the current official license have been reviewed; see docs/SCIN_USAGE.md. Read the current official terms before use. The MIT code license does not cover SCIN or pretrained model artifacts.
 
 Do not attempt to identify or link dataset contributors. Preserve label provenance locally.
 Do not publish images or case-level metadata merely because they are available for research.

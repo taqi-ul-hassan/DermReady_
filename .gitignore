@@ -40,3 +40,8 @@ reports/predictions/
 Thumbs.db
 .vscode/
 .idea/
+
+# Runtime installation and Gradio scratch files
+pip-*/
+torchinductor_*/
+gradio/

@@ -6,8 +6,8 @@ Image-suitability quality gate for dermatology photography.
 
 ## Status
 
-Project scope and repository scaffold are established. Local Python 3.12 CPU dependencies are installed, pinned, and smoke-tested. Colab GPU/Drive setup is prepared but requires a live run with your account.
-Data access, label review, training, evaluation, and the Gradio app are not implemented.
+Project scope and repository scaffold are established. Local Python 3.12 CPU dependencies are installed, pinned, and smoke-tested. The user reports completing the Colab setup notebook; its remote outputs have not been inspected here.
+SCIN data access and audit are complete. Splits, training, evaluation, and the Gradio app are not implemented. See [data audit](reports/data_audit.md).
 No performance or clinical-benefit claims have been established.
 
 ## Goal and target users
@@ -36,7 +36,7 @@ Use case-level supervision and splitting. Preserve all image references and labe
 
 The MVP accepts a single image, which is less information than a multi-image case. Any score from that input must be described as a limited single-image estimate from a case-trained system and evaluated separately. Do not silently copy case labels onto images as definitive image-level labels.
 
-Provisional consensus policy: majority vote with at least two available dermatologist votes; exclude unresolved ties and insufficient votes from supervised training, retain them for audit. Confirm the actual schema before finalizing this policy.
+Audited consensus policy: explicitly map the two unambiguous categorical values; exclude no-discernible-pathology votes, missing votes, unknown values, ties, and cases with fewer than two valid votes. This retains 710 cases before missing-image handling. See reports/data_audit.md for the mapping and cohort selection limits. Cases connected by shared image paths must also remain in one split.
 
 ## Success criteria
 
@@ -96,11 +96,11 @@ python scripts/check_environment.py
 
 [Open the environment notebook in Colab](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/00_environment_setup.ipynb).
 It checks CUDA and prepares persistent Google Drive output directories. Do not install the CPU lock file in Colab.
-The actual Colab GPU/Drive execution and trained-model inference remain pending. The app is not implemented yet.
+The user reports completing Colab setup; live outputs were not independently inspected. Trained-model inference remains pending. The app is not implemented yet.
 
 ## Data, privacy, and license
 
-SCIN has separate data-use terms; the code license does not license dataset images, labels, or pretrained weights. Review current terms before downloading or sharing.
+SCIN has separate data-use terms; the code license does not license dataset images, labels, or pretrained weights. The current official terms were reviewed for this audit; see docs/SCIN_USAGE.md and recheck before sharing material.
 Do not commit dataset images, case manifests, model weights, credentials, or private uploads.
 The intended upload policy is no unnecessary retention; hosting/cache behavior must be verified before a public demo.
 Only explicitly permitted examples belong in assets/demo.
