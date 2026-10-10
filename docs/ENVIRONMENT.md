@@ -24,7 +24,7 @@ python -m pip install -r requirements-cpu.lock.txt --extra-index-url https://dow
 
 The checker imports each dependency, runs MobileNetV3-Small with random weights on a synthetic image on CPU, checks OpenCV, and constructs a Gradio interface without publishing a server. It also checks CUDA when present. This is environment verification, not trained-model evaluation. No SCIN images or pretrained downloads are needed.
 
-The application and inference modules are still scaffolds. Real checkpoint loading and CPU prediction will be verified after model implementation.
+The application and inference modules are implemented. Real checkpoint loading and CPU prediction passed in step 10.
 
 ## Colab GPU and persistent storage
 
@@ -51,4 +51,4 @@ Google authorization and GPU allocation cannot be completed from a local termina
 
 ## Local validation result
 
-Python 3.12.14: dependency consistency, all required imports, synthetic MobileNet CPU execution, OpenCV operation, and Gradio construction passed. See reports/environment_local.json. CUDA is unavailable in this local environment. Restricted CPU-topology detection required disabling the optional NNPACK backend in the checker. No trained-model or pretrained-download validation has occurred.
+Python 3.12.14: dependency consistency, all required imports, synthetic MobileNet CPU execution, OpenCV operation, and Gradio construction passed. See reports/environment_local.json. CUDA is unavailable in this local environment. Restricted CPU-topology detection required disabling the optional NNPACK backend in the checker. Pretrained download, trained checkpoint loading, and CPU prediction have since passed; see reports/steps_06_to_10.md.

@@ -1,0 +1,29 @@
+{
+  "unit": "case",
+  "threshold": 0.5,
+  "cases": 106,
+  "class_counts": {
+    "ungradable": 23,
+    "gradable": 83
+  },
+  "ungradable_recall": 0.5652173913043478,
+  "false_acceptance_rate": 0.43478260869565216,
+  "gradable_acceptance_rate": 0.7831325301204819,
+  "false_rejection_rate": 0.21686746987951808,
+  "f1_ungradable": 0.48148148148148145,
+  "balanced_accuracy": 0.6741749607124148,
+  "roc_auc_gradable": 0.7291775798847564,
+  "pr_auc_ungradable": 0.40013707325651704,
+  "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+    [
+      13,
+      10
+    ],
+    [
+      18,
+      65
+    ]
+  ],
+  "split": "validation",
+  "model": "quality_features_logistic_regression"
+}

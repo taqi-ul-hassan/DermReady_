@@ -1,0 +1,16 @@
+{
+  "splits_checked": [
+    "train",
+    "validation"
+  ],
+  "unique_images_checked": 1674,
+  "readable_images": 1674,
+  "failed_images": 0,
+  "test_images_decoded": false,
+  "limits": {
+    "max_file_mb": 20,
+    "max_pixels": 24000000
+  },
+  "transform": "EXIF transpose, RGB conversion, entire-image letterbox to 224, ImageNet normalization; train-only horizontal flip",
+  "status": "passed"
+}

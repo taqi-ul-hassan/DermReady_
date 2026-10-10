@@ -1,0 +1,62 @@
+{
+  "split": "validation",
+  "unit": "one fixed first-listed image per validation case",
+  "weak_supervision": true,
+  "test_evaluated": false,
+  "model_metrics_at_0_5": {
+    "cnn": {
+      "unit": "case",
+      "threshold": 0.5,
+      "cases": 106,
+      "class_counts": {
+        "ungradable": 23,
+        "gradable": 83
+      },
+      "ungradable_recall": 0.43478260869565216,
+      "false_acceptance_rate": 0.5652173913043478,
+      "gradable_acceptance_rate": 0.6746987951807228,
+      "false_rejection_rate": 0.3253012048192771,
+      "f1_ungradable": 0.3333333333333333,
+      "balanced_accuracy": 0.5547407019381875,
+      "roc_auc_gradable": 0.6123624934520691,
+      "pr_auc_ungradable": 0.32622624604381234,
+      "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+        [
+          10,
+          13
+        ],
+        [
+          27,
+          56
+        ]
+      ]
+    },
+    "quality_baseline": {
+      "unit": "case",
+      "threshold": 0.5,
+      "cases": 106,
+      "class_counts": {
+        "ungradable": 23,
+        "gradable": 83
+      },
+      "ungradable_recall": 0.34782608695652173,
+      "false_acceptance_rate": 0.6521739130434783,
+      "gradable_acceptance_rate": 0.7951807228915663,
+      "false_rejection_rate": 0.20481927710843373,
+      "f1_ungradable": 0.3333333333333333,
+      "balanced_accuracy": 0.571503404924044,
+      "roc_auc_gradable": 0.606076479832373,
+      "pr_auc_ungradable": 0.29856947194066913,
+      "confusion_matrix_rows_actual_0_1_cols_predicted_0_1": [
+        [
+          8,
+          15
+        ],
+        [
+          17,
+          66
+        ]
+      ]
+    }
+  }
+}

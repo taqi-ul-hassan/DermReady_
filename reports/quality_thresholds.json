@@ -1,0 +1,10 @@
+{
+  "blur_low": 3.325845445484975,
+  "brightness_low": 0.28482497930526735,
+  "brightness_high": 0.6248923480510712,
+  "dark_fraction_high": 0.27220547831956926,
+  "bright_fraction_high": 0.016582993834789655,
+  "minimum_short_side": 256,
+  "source": "validation-image distribution: fixed 5th/95th percentiles and 99th-percentile high-frequency guard; not defect ground truth",
+  "blur_high": 7.756371640685349
+}

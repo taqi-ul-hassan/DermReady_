@@ -1,4 +1,4 @@
-# Data audit and grouped splits verified; model settings remain provisional.
+# Executed local experiment; thresholds are in the selected artifact decision_policy.json.
 project: DermReady
 seed: 42
 data:
@@ -13,21 +13,22 @@ data:
   missing_image_policy: exclude_entire_incomplete_case
   split_fractions: {train: 0.70, validation: 0.15, test: 0.15}
 model:
-  architecture: mobilenetv3_small
+  architecture: mobilenetv3_small_100.lamb_in1k
   pretrained: true
   num_classes: 2
   case_aggregation: mean_image_embeddings
   image_size: 224
 training:
-  batch_size: 16
-  epochs: 5
+  batch_size: 8
+  epochs: 3
   learning_rate: 0.001
+  finetune_learning_rate: 0.0001
   checkpoint_dir: checkpoints
 decision:
   score_semantics: uncalibrated_gradable_score
   retake_below: null
   suitable_above: null
   thresholds_selected_on: validation
-  status: not_selected
+  status: selected_in_checkpoint_decision_policy
 privacy:
   retain_uploads: false

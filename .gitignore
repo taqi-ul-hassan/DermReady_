@@ -45,3 +45,7 @@ Thumbs.db
 pip-*/
 torchinductor_*/
 gradio/
+
+# Private artifact downloads and temporary checkpoint writes
+artifacts/
+*.pt.tmp

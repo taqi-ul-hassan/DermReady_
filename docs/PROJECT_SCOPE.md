@@ -18,10 +18,10 @@ Build a research-only suitability gate for dermatology photography, with measura
 ## Open decisions
 - Confirmed categorical gradability mapping and strict consensus: 710 eligible cases before missing-image handling. No-discernible-pathology votes remain outside the binary task. Connected-case grouping for shared paths/content hashes and saved leakage-free splits are implemented.
 - Use label 0 for operational ungradable and 1 for operational gradable; preserve raw vote provenance. Validate model output mapping during implementation.
-- Verify aggregation and single-image evaluation protocol.
-- Choose validation thresholds and report uncertainty coverage.
+- Case-level mean embedding aggregation implemented; single-image validation uses first-listed image with a weak case-label proxy. Held-out testing remains pending.
+- Validation thresholds and uncertainty coverage recorded in reports/decision_policy.json; the default quality baseline has 59/106 uncertain validation outputs.
 - Local dependency versions verified and pinned; live Colab verification and hosting upload/cache checks remain pending.
-- Confirm the current event rules, deadline, permitted hosting, public-repository requirements, and hacking window. These have not been verified.
+- Event rules reviewed; deadline sources conflict (AoE versus EDT), documented in docs/EVENT_RULES.md. User eligibility/theme still unverified. No public hosting was performed.
 
 ## Delivery gates
 At hour 2: pivot to permitted UI demonstration data if access/label interpretation is blocked.

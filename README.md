@@ -6,9 +6,24 @@ Image-suitability quality gate for dermatology photography.
 
 ## Status
 
-Project scope and repository scaffold are established. Local Python 3.12 CPU dependencies are installed, pinned, and smoke-tested. The user reports completing the Colab setup notebook; its remote outputs have not been inspected here.
-SCIN data access and audit are complete. Private case/image manifests and seed-42 grouped splits are prepared and verified. Training, model evaluation, and the Gradio app are not implemented. See [data audit](reports/data_audit.md) and [split summary](reports/split_summary.md).
-No performance or clinical-benefit claims have been established.
+Steps 1–10 are implemented: repository, environments, SCIN audit, saved grouped splits, preprocessing, quality baseline, pretrained MobileNet training, validation-selected three-state policies, and a working local Gradio app.
+
+The default is the quality-feature baseline because the full guarded validation policy had fewer false acceptances. A trained MobileNet option is available. Validation performance is weak, single-image labels are case-derived proxies, and clinical adequacy is not established. The test split has not been used for training, threshold selection, or model evaluation; final held-out evaluation remains step 11.
+
+See [steps 6–10 report](reports/steps_06_to_10.md), [data audit](reports/data_audit.md), and [split summary](reports/split_summary.md).
+
+## Run the app
+
+Place best.pt, quality_baseline.json, and decision_policy.json from the private trained-artifact bundle in checkpoints/. Then:
+
+```bash
+python app.py
+# Optional MobileNet path:
+python app.py --model cnn
+```
+
+Open http://127.0.0.1:7860. Without fitted artifacts the app starts in explicitly labeled features-only mode and returns uncertain.
+See [run/reproduction guide](docs/RUN_APP.md). The [Colab training notebook](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/03_train_and_prepare_demo.ipynb) writes private artifacts to your Drive and does not publish a share link.
 
 ## Goal and target users
 
@@ -36,7 +51,7 @@ Use case-level supervision and splitting. Preserve all image references and labe
 
 The MVP accepts a single image, which is less information than a multi-image case. Any score from that input must be described as a limited single-image estimate from a case-trained system and evaluated separately. Do not silently copy case labels onto images as definitive image-level labels.
 
-Audited consensus policy: explicitly map the two unambiguous categorical values; exclude no-discernible-pathology votes, missing votes, unknown values, ties, and cases with fewer than two valid votes. This retains 710 cases before missing-image handling. See reports/data_audit.md for the mapping and cohort selection limits. Cases connected by shared image paths or known content hashes remain in one split. The saved splits contain 497 training, 106 validation, and 107 test cases.
+Audited consensus policy: explicitly map the two unambiguous categorical values; exclude no-discernible-pathology votes, missing votes, ties, and cases with fewer than two valid votes; stop on unknown categorical values. This retains 710 cases before missing-image handling. See reports/data_audit.md for the mapping and cohort selection limits. Cases connected by shared image paths or known content hashes remain in one split. The saved splits contain 497 training, 106 validation, and 107 test cases.
 
 ## Success criteria
 
@@ -60,7 +75,7 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 
 | Path | Responsibility |
 | --- | --- |
-| app.py | Future Gradio entry point |
+| app.py | Working local Gradio entry point |
 | configs/experiment.yaml | Provisional experiment settings |
 | src/data_loader.py | Cases and explicit label parsing |
 | src/splits.py | Connected groups, assignment, leakage verification |
@@ -98,13 +113,13 @@ python scripts/check_environment.py
 
 [Open the environment notebook in Colab](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/00_environment_setup.ipynb).
 It checks CUDA and prepares persistent Google Drive output directories. Do not install the CPU lock file in Colab.
-The user reports completing Colab setup; live outputs were not independently inspected. Trained-model inference remains pending. The app is not implemented yet.
+The user reports completing Colab setup; live outputs were not independently inspected. Real CPU checkpoint inference has passed. The app runs locally; trained artifacts are kept outside public Git.
 
 ## Data, privacy, and license
 
 SCIN has separate data-use terms; the code license does not license dataset images, labels, or pretrained weights. The current official terms were reviewed for this audit; see docs/SCIN_USAGE.md and recheck before sharing material.
 Do not commit dataset images, case manifests, model weights, credentials, or private uploads.
-The intended upload policy is no unnecessary retention; hosting/cache behavior must be verified before a public demo.
+Uploads are not added to datasets/logs. Gradio temporary upload/preview files are configured for periodic cleanup; public hosting/cache behavior remains unverified.
 Only explicitly permitted examples belong in assets/demo.
 
 ## Sources to verify before implementation
@@ -116,4 +131,12 @@ Only explicitly permitted examples belong in assets/demo.
 - [Banana Hacks FAQ](https://www.bananahacks.tech/faq)
 - [Banana Hacks code of conduct](https://www.bananahacks.tech/code-of-conduct)
 
-Event deadline, eligibility, hacking window, and submission requirements are unverified. Record confirmed rules in docs/PROJECT_SCOPE.md before relying on them.
+Official event rules were reviewed; deadline sources conflict. See docs/EVENT_RULES.md. User eligibility and the announced challenge/theme are not independently verified.
+
+## Model and library attribution
+
+- [timm / Ross Wightman](https://github.com/huggingface/pytorch-image-models), Apache 2.0.
+- [Pretrained MobileNetV3-Small model card](https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k), ImageNet-1k initialization, Apache 2.0 model-card license. DermReady adds a trained case head; later backbone fine-tuning was not selected.
+- [PyTorch](https://pytorch.org/), [torchvision](https://github.com/pytorch/vision), [OpenCV](https://opencv.org/), [scikit-learn](https://scikit-learn.org/), [Pillow](https://python-pillow.github.io/), [Gradio](https://www.gradio.app/). See requirements files for all dependencies.
+- SCIN and Ward et al.: attribution and separate data terms in docs/SCIN_USAGE.md.
+- AI coding/documentation assistance: ChatGPT/Codex.

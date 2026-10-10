@@ -1,0 +1,102 @@
+{
+  "preferred_model": "quality_baseline",
+  "models": {
+    "cnn": {
+      "retake_below": 0.5050891041755676,
+      "suitable_above": 0.8159205913543701,
+      "suitable_enabled": true,
+      "selection": "validation scores only; empirical false acceptance <=0.10; retake false rejection <=0.35",
+      "validation_cases": 106,
+      "validation_ungradable_cases": 23,
+      "validation_gradable_cases": 83,
+      "validation_score_band_counts": {
+        "suitable": 17,
+        "retake": 38,
+        "uncertain": 51
+      },
+      "false_acceptance_rate_all_ungradable": 0.08695652173913043,
+      "false_rejection_rate_all_gradable": 0.3253012048192771,
+      "uncertainty_fraction": 0.4811320754716981,
+      "rate_denominators": "False acceptance: all ungradable validation cases; false rejection: all gradable validation cases. Uncertain outputs are neither accepted nor rejected.",
+      "limits": "Same validation set used for selection; only 23 ungradable cases. These are not held-out test rates or clinically validated safety targets."
+    },
+    "quality_baseline": {
+      "retake_below": 0.6734272431621107,
+      "suitable_above": 0.9204476710255686,
+      "suitable_enabled": true,
+      "selection": "validation scores only; empirical false acceptance <=0.10; retake false rejection <=0.35",
+      "validation_cases": 106,
+      "validation_ungradable_cases": 23,
+      "validation_gradable_cases": 83,
+      "validation_score_band_counts": {
+        "suitable": 21,
+        "retake": 34,
+        "uncertain": 51
+      },
+      "false_acceptance_rate_all_ungradable": 0.08695652173913043,
+      "false_rejection_rate_all_gradable": 0.26506024096385544,
+      "uncertainty_fraction": 0.4811320754716981,
+      "rate_denominators": "False acceptance: all ungradable validation cases; false rejection: all gradable validation cases. Uncertain outputs are neither accepted nor rejected.",
+      "limits": "Same validation set used for selection; only 23 ungradable cases. These are not held-out test rates or clinically validated safety targets."
+    }
+  },
+  "quality_thresholds": {
+    "blur_low": 3.325845445484975,
+    "brightness_low": 0.28482497930526735,
+    "brightness_high": 0.6248923480510712,
+    "dark_fraction_high": 0.27220547831956926,
+    "bright_fraction_high": 0.016582993834789655,
+    "minimum_short_side": 256,
+    "source": "validation-image distribution: fixed 5th/95th percentiles and 99th-percentile high-frequency guard; not defect ground truth",
+    "blur_high": 7.756371640685349
+  },
+  "input_unit": "one fixed first-listed image per validation case",
+  "supervision": "weak proxy: image inherits case label for validation ONLY; not definitive image suitability truth",
+  "quality_guard": "Any flagged quality proxy blocks a suitable state; unsupported modes/extremes are uncertain",
+  "score_semantics": "uncalibrated research gradability score, not probability of clinical adequacy",
+  "test_evaluated": false,
+  "research_only": true,
+  "validation_pipeline_results": {
+    "cnn": {
+      "state_counts": {
+        "likely suitable for review": 16,
+        "may need a retake": 38,
+        "uncertain": 52
+      },
+      "false_acceptance_count": 2,
+      "false_acceptance_rate_all_ungradable": 0.08695652173913043,
+      "false_acceptance_wilson95": [
+        0.024180004484220363,
+        0.26795981075743663
+      ],
+      "false_rejection_count": 27,
+      "false_rejection_rate_all_gradable": 0.3253012048192771,
+      "false_rejection_wilson95": [
+        0.23419333708259782,
+        0.43186478315375454
+      ],
+      "validation_selection_only": true
+    },
+    "quality_baseline": {
+      "state_counts": {
+        "likely suitable for review": 13,
+        "may need a retake": 34,
+        "uncertain": 59
+      },
+      "false_acceptance_count": 0,
+      "false_acceptance_rate_all_ungradable": 0.0,
+      "false_acceptance_wilson95": [
+        0.0,
+        0.14311661845042686
+      ],
+      "false_rejection_count": 22,
+      "false_rejection_rate_all_gradable": 0.26506024096385544,
+      "false_rejection_wilson95": [
+        0.18204414020123172,
+        0.3688616077028284
+      ],
+      "validation_selection_only": true
+    }
+  },
+  "model_selection": "Among validation pipelines: fewer false acceptances, then more correctly accepted gradable cases, then ROC-AUC. Selection is preliminary and uses the same validation cohort."
+}

@@ -1,0 +1,13 @@
+{
+  "bundle": "DermReady_Trained_Artifacts.zip",
+  "artifact_sha256": {
+    "best.pt": "6937bd46250360f64d6ca705f66ce9677b1036552a30cf1f37948774e20add9a",
+    "quality_baseline.json": "0ab291e8607ce065a68c64f658e56f37a6f2150da8cd4c7bcc354f76a6cdd3d4",
+    "decision_policy.json": "674a1ed688cdd26fbd9400d10d4daec58badb984386c98453a49e52bd255e468"
+  },
+  "bundle_sha256": "01faf27b39083f5e1a95268101265bc6c5285c4cca31fefb37a18bd7be441857",
+  "bundle_bytes": 5727696,
+  "contains_dataset_images": false,
+  "contains_case_records": false,
+  "public_repository_contains_weights": false
+}
