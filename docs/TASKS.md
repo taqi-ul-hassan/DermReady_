@@ -10,9 +10,12 @@
 - [ ] Verify current hackathon rules and deadline (external prerequisite).
 
 ## Step 3: environment
-- [ ] Create virtual environment, verify dependencies, and pin compatible versions.
-- [ ] Configure Colab GPU and persistent checkpoint storage.
-- [ ] Verify CPU inference support.
+- [x] Create local Python 3.12 virtual environment, verify dependencies, and pin compatible versions.
+- [x] Save full CPU lock snapshot, environment report, and repeatable checker.
+- [x] Prepare Colab notebook with GPU checks and persistent Drive output configuration.
+- [ ] Run Colab notebook with a signed-in account; confirm GPU execution and Drive write test.
+- [x] Verify synthetic MobileNet CPU execution, OpenCV, and Gradio construction.
+- [ ] Verify real checkpoint loading/CPU inference after model implementation.
 
 ## Step 4: data audit
 - [ ] Read current SCIN schema, license, and sample records.

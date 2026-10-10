@@ -6,7 +6,7 @@ Image-suitability quality gate for dermatology photography.
 
 ## Status
 
-Steps 1 and 2 are complete: project scope and repository scaffold.
+Project scope and repository scaffold are established. Local Python 3.12 CPU dependencies are installed, pinned, and smoke-tested. Colab GPU/Drive setup is prepared but requires a live run with your account.
 Data access, label review, training, evaluation, and the Gradio app are not implemented.
 No performance or clinical-benefit claims have been established.
 
@@ -80,21 +80,23 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 | assets/demo/ | Permitted public examples only |
 | docs/ | Scope, task list, data/privacy notes |
 
-## Future environment setup
+## Environment setup
 
-Dependencies are provisional and unpinned until tested in the actual local/Colab environment. This scaffold does not launch a functional app.
+See [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) for local CPU installation and full-lock reproduction.
+The tested Linux/Python 3.12 snapshot is in requirements-cpu.lock.txt. Direct dependencies are pinned in requirements.txt.
 
 ```bash
-git clone https://github.com/taqi-ul-hassan/DermReady_.git
-cd DermReady_
 python -m venv .venv
-# Linux/macOS:
 source .venv/bin/activate
-# Windows PowerShell alternative: .venv\\Scripts\\Activate.ps1
+python -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
 python -m pip install -r requirements.txt
+python -m pip check
+python scripts/check_environment.py
 ```
 
-Copy .env.example to .env only if environment variables are needed. No credentials are currently required. See docs/TASKS.md for the implementation order.
+[Open the environment notebook in Colab](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/00_environment_setup.ipynb).
+It checks CUDA and prepares persistent Google Drive output directories. Do not install the CPU lock file in Colab.
+The actual Colab GPU/Drive execution and trained-model inference remain pending. The app is not implemented yet.
 
 ## Data, privacy, and license
 

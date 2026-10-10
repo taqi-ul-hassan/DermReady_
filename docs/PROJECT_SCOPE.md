@@ -20,7 +20,7 @@ Build a research-only suitability gate for dermatology photography, with measura
 - Confirm class order and score mapping after audit.
 - Verify aggregation and single-image evaluation protocol.
 - Choose validation thresholds and report uncertainty coverage.
-- Verify dependency versions and hosting upload/cache behavior.
+- Local dependency versions verified and pinned; live Colab verification and hosting upload/cache checks remain pending.
 - Confirm the current event rules, deadline, permitted hosting, public-repository requirements, and hacking window. These have not been verified.
 
 ## Delivery gates
