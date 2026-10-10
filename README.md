@@ -20,6 +20,10 @@ DermReady now offers a capture-review workflow: inspect an original, follow the 
 
 The active mode is visible immediately. A public checkout without private fitted artifacts supports capture indicators and comparison; learned suitability decisions require the artifact bundle. See [demo guide](docs/DEMO_GUIDE.md) and [submission draft](docs/SUBMISSION_DRAFT.md).
 
+![DermReady capture-review interface](assets/demo/frontend_desktop.png)
+
+Actual desktop screenshot in capture-indicators-only mode. The responsive interface separates checking, retake comparison, and research evidence into tabs; it also supports narrow phone screens.
+
 Place best.pt, quality_baseline.json, and decision_policy.json from the private trained-artifact bundle in checkpoints/. Then:
 
 ```bash

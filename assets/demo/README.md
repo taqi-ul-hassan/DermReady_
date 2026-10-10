@@ -8,3 +8,5 @@ These four images are original deterministic synthetic geometric/noise targets g
 - synthetic_noise.png: seeded RGB noise to exercise the out-of-reference texture guard.
 
 These images demonstrate software and capture-indicator behavior only. Do not present their outputs as clinical validation or skin-image examples. Any captured app screenshots use these same synthetic targets. See docs/DEMO_GUIDE.md.
+
+frontend_desktop.png is an actual browser screenshot of the redesigned empty app in features-only mode. It contains no uploaded photograph, patient data or trained prediction.
