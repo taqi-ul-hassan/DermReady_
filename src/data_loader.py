@@ -1,4 +1,4 @@
-"""SCIN metadata loading and explicit gradability parsing; splits are step 5."""
+"""SCIN metadata loading and explicit gradability parsing; see src.splits for splitting."""
 from pathlib import Path
 import pandas as pd
 

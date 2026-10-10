@@ -16,7 +16,7 @@ Build a research-only suitability gate for dermatology photography, with measura
 - MIT license for original project code only.
 
 ## Open decisions
-- Confirmed categorical gradability mapping and strict consensus: 710 eligible cases before missing-image handling. No-discernible-pathology votes remain outside the binary task. Implement connected-case grouping for 15 shared image paths.
+- Confirmed categorical gradability mapping and strict consensus: 710 eligible cases before missing-image handling. No-discernible-pathology votes remain outside the binary task. Connected-case grouping for shared paths/content hashes and saved leakage-free splits are implemented.
 - Use label 0 for operational ungradable and 1 for operational gradable; preserve raw vote provenance. Validate model output mapping during implementation.
 - Verify aggregation and single-image evaluation protocol.
 - Choose validation thresholds and report uncertainty coverage.

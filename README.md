@@ -7,7 +7,7 @@ Image-suitability quality gate for dermatology photography.
 ## Status
 
 Project scope and repository scaffold are established. Local Python 3.12 CPU dependencies are installed, pinned, and smoke-tested. The user reports completing the Colab setup notebook; its remote outputs have not been inspected here.
-SCIN data access and audit are complete. Splits, training, evaluation, and the Gradio app are not implemented. See [data audit](reports/data_audit.md).
+SCIN data access and audit are complete. Private case/image manifests and seed-42 grouped splits are prepared and verified. Training, model evaluation, and the Gradio app are not implemented. See [data audit](reports/data_audit.md) and [split summary](reports/split_summary.md).
 No performance or clinical-benefit claims have been established.
 
 ## Goal and target users
@@ -36,7 +36,7 @@ Use case-level supervision and splitting. Preserve all image references and labe
 
 The MVP accepts a single image, which is less information than a multi-image case. Any score from that input must be described as a limited single-image estimate from a case-trained system and evaluated separately. Do not silently copy case labels onto images as definitive image-level labels.
 
-Audited consensus policy: explicitly map the two unambiguous categorical values; exclude no-discernible-pathology votes, missing votes, unknown values, ties, and cases with fewer than two valid votes. This retains 710 cases before missing-image handling. See reports/data_audit.md for the mapping and cohort selection limits. Cases connected by shared image paths must also remain in one split.
+Audited consensus policy: explicitly map the two unambiguous categorical values; exclude no-discernible-pathology votes, missing votes, unknown values, ties, and cases with fewer than two valid votes. This retains 710 cases before missing-image handling. See reports/data_audit.md for the mapping and cohort selection limits. Cases connected by shared image paths or known content hashes remain in one split. The saved splits contain 497 training, 106 validation, and 107 test cases.
 
 ## Success criteria
 
@@ -62,7 +62,9 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 | --- | --- |
 | app.py | Future Gradio entry point |
 | configs/experiment.yaml | Provisional experiment settings |
-| src/data_loader.py | Cases, label policy, grouped splits |
+| src/data_loader.py | Cases and explicit label parsing |
+| src/splits.py | Connected groups, assignment, leakage verification |
+| scripts/prepare_scin.py | Private manifests and reproducible split files |
 | src/preprocessing.py | Upload validation and transforms |
 | src/quality_features.py | Capture-quality proxies |
 | src/model.py | Classifier and case aggregation |

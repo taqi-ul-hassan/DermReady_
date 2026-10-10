@@ -23,9 +23,9 @@
 - [x] Write reports/data_audit.md; decide go/no-go at hour 2.
 
 ## Step 5: labels and splits
-- [ ] Implement and validate consensus policy.
-- [ ] Build local manifests preserving case IDs and label provenance.
-- [ ] Save splits grouped by connected cases/shared image paths; handle missing objects, then check case/image overlap.
+- [x] Implement and validate consensus policy.
+- [x] Build local manifests preserving case IDs and label provenance.
+- [x] Save splits grouped by connected cases/shared image paths; handle missing objects, then check case/image overlap.
 
 ## Steps 6 and 7: preprocessing and baseline
 - [ ] Validate uploads, correct orientation, preserve originals.

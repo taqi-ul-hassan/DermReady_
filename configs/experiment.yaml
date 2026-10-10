@@ -1,4 +1,4 @@
-# Provisional settings; no experiment has been run.
+# Data audit and grouped splits verified; model settings remain provisional.
 project: DermReady
 seed: 42
 data:
@@ -9,7 +9,8 @@ data:
   unit: case
   consensus_policy: majority_two_unambiguous_votes_exclude_ties
   ambiguous_vote_policy: exclude_no_discernible_pathology
-  duplicate_policy: group_connected_cases_by_shared_image_path
+  duplicate_policy: group_connected_cases_by_shared_image_path_or_md5
+  missing_image_policy: exclude_entire_incomplete_case
   split_fractions: {train: 0.70, validation: 0.15, test: 0.15}
 model:
   architecture: mobilenetv3_small
