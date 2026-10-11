@@ -1,0 +1,7 @@
+# Default JSON baseline/capture runtime; optional CNN needs requirements.txt.
+gradio==6.30.0
+numpy==2.5.2
+Pillow==12.3.0
+opencv-python-headless==5.0.0.93
+socksio==1.0.0
+httpx==0.28.1

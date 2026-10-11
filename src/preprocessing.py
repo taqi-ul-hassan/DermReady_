@@ -4,8 +4,6 @@ from pathlib import Path
 import warnings
 import numpy as np
 from PIL import Image, ImageOps, UnidentifiedImageError
-import torch
-from torchvision import transforms
 
 MAX_BYTES = 20 * 1024 * 1024
 MAX_PIXELS = 24_000_000
@@ -82,6 +80,7 @@ class Letterbox:
 
 
 def model_transform(training=False, size=224):
+    from torchvision import transforms
     pipeline = [Letterbox(size)]
     if training:
         # No blur/exposure/compression augmentations that change the quality task.

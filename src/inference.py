@@ -2,8 +2,6 @@
 import json
 from pathlib import Path
 import numpy as np
-import torch
-from .model import CaseGradabilityModel,ARCHITECTURE
 from .artifact_validation import validate_policy,validate_baseline,validate_thresholds
 from .preprocessing import load_image,preprocess_for_inference
 from .quality_features import extract_quality_features,aggregate_quality_features
@@ -12,7 +10,7 @@ from .feedback import decide_with_reason,make_feedback,quality_flags,UNCERTAIN
 
 class Predictor:
     def __init__(self,checkpoint_dir='checkpoints',report_dir='reports',model_name=None):
-        self.directory=Path(checkpoint_dir);self.model=None;self.baseline=None
+        self.directory=Path(checkpoint_dir);self.model=None;self.baseline=None;self.torch=None
         policy_path=self.directory/'decision_policy.json'
         report_dir=Path(report_dir)
         self.load_warnings=[]
@@ -28,6 +26,10 @@ class Predictor:
             except (OSError,ValueError,KeyError,TypeError):pass
         if (self.directory/'best.pt').exists() and self.policy and 'cnn' in self.policy['models']:
             try:
+                import torch
+                from .model import CaseGradabilityModel,ARCHITECTURE
+                self.torch=torch
+                torch.set_num_threads(2);torch.backends.nnpack.set_flags(False)
                 checkpoint=torch.load(self.directory/'best.pt',map_location='cpu',weights_only=True)
                 if checkpoint['architecture']!=ARCHITECTURE or checkpoint['class_order']!=['ungradable','gradable']:
                     raise ValueError('Model artifact does not match architecture/class order.')
@@ -42,13 +44,12 @@ class Predictor:
         available={'cnn':self.model is not None,'quality_baseline':self.baseline is not None}
         if model_name and not available.get(model_name):raise ValueError('Requested model artifact is unavailable.')
         self.mode=preferred if available.get(preferred) else next((name for name,ready in available.items() if ready),'features_only')
-        torch.set_num_threads(2);torch.backends.nnpack.set_flags(False)
 
     def predict(self,source):
         image,metadata=load_image(source);features=extract_quality_features(image)
         score=None
         if self.mode=='cnn':
-            with torch.inference_mode():score=float(self.model(preprocess_for_inference(image).unsqueeze(0)).softmax(1)[0,1])
+            with self.torch.inference_mode():score=float(self.model(preprocess_for_inference(image).unsqueeze(0)).softmax(1)[0,1])
         elif self.mode=='quality_baseline':
             case_features=aggregate_quality_features([features]);b=self.baseline
             x=np.array([case_features[name] for name in b['columns']],dtype=float)

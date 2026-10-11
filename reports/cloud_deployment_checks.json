@@ -1,0 +1,14 @@
+{
+  "host_target": "Render free Python web service",
+  "deployment_state": "prepared; hosting account not connected",
+  "public_url": null,
+  "cloud_dependency_consistency": "passed",
+  "cloud_startup_peak_rss_mib": 153.1,
+  "torch_imported_for_capture_or_json_baseline": false,
+  "live_synthetic_upload_and_comparison": "passed",
+  "private_marker_http_status": 403,
+  "trained_artifacts_available_in_workspace": false,
+  "trained_model_policy_or_coefficients_changed": false,
+  "limits": "Startup/API checks are not production load testing or external hosting retention validation.",
+  "lightweight_runtime_regression_tests_passed": 27
+}

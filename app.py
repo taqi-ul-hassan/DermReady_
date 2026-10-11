@@ -17,7 +17,7 @@ from src.session_review import ReviewSession
 ROOT = Path(__file__).resolve().parent
 
 
-def build_app(predictor=None):
+def build_app(predictor=None,public_demo=False):
     predictor=predictor or Predictor(os.environ.get('DERMREADY_CHECKPOINT_DIR',str(ROOT/'checkpoints')),ROOT/'reports')
     def analyze_raw(filepath):
         if not filepath:return None,'Choose a photograph',[], 'Upload one PNG, JPEG, or still WebP image.', ''
@@ -68,6 +68,8 @@ def build_app(predictor=None):
         comparison_session=gr.State(ReviewSession(),time_to_live=3600)
         mode_label = 'Capture indicators only — fitted artifacts are unavailable' if predictor.mode == 'features_only' else 'Fitted research system: ' + predictor.mode
         gr.Markdown('**Current mode:** ' + mode_label,elem_id='mode-banner')
+        if public_demo:
+            gr.Markdown('**Public hackathon demo:** use the synthetic examples or photographs you have permission to share. Avoid identifiable medical uploads.')
         with gr.Tabs():
             with gr.Tab('Check a photograph'):
                 with gr.Row():
@@ -108,7 +110,7 @@ def build_app(predictor=None):
                 differences=gr.Dataframe(headers=['Indicator','Original','New capture','Change'],datatype=['str','number','number','number'],interactive=False)
                 comparison_notes=gr.Textbox(label='What changed — and what it means',lines=6,interactive=False)
                 compare_clear=gr.Button('Clear comparison')
-                compare_button.click(compare,inputs=[original,retake,comparison_session],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name='compare_captures',concurrency_limit=1)
+                compare_button.click(compare,inputs=[original,retake,comparison_session],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name='compare_captures',concurrency_limit=1,concurrency_id='capture-processing')
                 compare_clear.click(clear_comparison,inputs=comparison_session,outputs=[original,retake,original_preview,retake_preview,differences,comparison_notes],api_name=False,queue=False)
                 for capture in (original,retake):
                     capture.change(reset_comparison,inputs=[original,retake,comparison_session],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name=False,queue=False)
@@ -124,8 +126,9 @@ def build_app(predictor=None):
                 gr.Markdown('#### Frozen blur and lighting sensitivity experiments')
                 gr.Image(value=str(ROOT/'reports/robustness_states.png'),show_label=False,interactive=False)
                 gr.Markdown('Edited images have no new clinical labels. These experiments demonstrate sensitivity to synthetic changes, not clinical accuracy. See reports/heldout_test.md, reports/robustness.md and docs/MODEL_CARD.md in the repository for full evidence.')
-        gr.Markdown('**Upload handling:** the application does not save uploads in its dataset or logs. Gradio uses temporary upload/preview files, with cleanup configured for files older than 60 seconds, checked every 30 seconds. Clearing resets the view; browser and hosting caches may persist. This demo binds to localhost by default.',elem_classes='privacy-footer')
-        button.click(analyze,inputs=[upload,review_session],outputs=[preview,state,indicators,feedback,detail],api_name='assess',concurrency_limit=1)
+        hosting_note='This is a shared public demo; hosting logs and browser caches are outside the app’s cleanup control.' if public_demo else 'This demo binds to localhost by default.'
+        gr.Markdown('**Upload handling:** the application does not save uploads in its dataset or logs. Gradio uses temporary upload/preview files, with cleanup configured for files older than 60 seconds, checked every 30 seconds. Clearing resets the view; browser and hosting caches may persist. '+hosting_note,elem_classes='privacy-footer')
+        button.click(analyze,inputs=[upload,review_session],outputs=[preview,state,indicators,feedback,detail],api_name='assess',concurrency_limit=1,concurrency_id='capture-processing')
         clear.click(clear_review,inputs=review_session,outputs=[upload,preview,state,indicators,feedback,detail],api_name=False,queue=False)
         upload.change(reset_review,inputs=[upload,review_session],outputs=[preview,state,indicators,feedback,detail],api_name=False,queue=False)
     return demo
@@ -133,11 +136,14 @@ def build_app(predictor=None):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--checkpoint-dir',default=os.environ.get('DERMREADY_CHECKPOINT_DIR',str(ROOT/'checkpoints')))
-    p.add_argument('--model',choices=['cnn','quality_baseline']);p.add_argument('--port',type=int,default=7860)
+    p.add_argument('--model',choices=['cnn','quality_baseline'])
+    p.add_argument('--host',default='127.0.0.1',help='Use 0.0.0.0 for a cloud web service')
+    p.add_argument('--port',type=int,default=int(os.environ.get('PORT','7860')))
     args=p.parse_args();predictor=Predictor(args.checkpoint_dir,report_dir=ROOT/'reports',model_name=args.model)
-    demo=build_app(predictor)
-    demo.launch(server_name='127.0.0.1',server_port=args.port,share=False,show_error=False,
-                blocked_paths=[str((ROOT/'data').resolve()),str(Path(args.checkpoint_dir).resolve()),str((ROOT/'.env').resolve())],
+    demo=build_app(predictor,public_demo=args.host not in ('127.0.0.1','localhost'))
+    demo.launch(server_name=args.host,server_port=args.port,share=False,show_error=False,
+                blocked_paths=[str((ROOT/'data').resolve()),str(Path(args.checkpoint_dir).resolve()),str((ROOT/'.env').resolve()),
+                               str(ROOT/'quality_baseline.json'),str(ROOT/'decision_policy.json'),str(ROOT/'best.pt')],
                 max_file_size='20mb',run_history=False,enable_monitoring=False,mcp_server=False,
                 theme=app_theme(),css=CSS,footer_links=[])
 
