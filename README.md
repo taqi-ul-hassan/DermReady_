@@ -234,6 +234,6 @@ The app blocks private data and artifact paths and disables analytics/run histor
 
 The project code is released under the [MIT License](LICENSE). Dataset images, labels, and pretrained weights have separate terms; the code license does not grant rights to those materials.
 
-Built by [Taqi Ul Hassan](https://github.com/taqi-ul-hassan).
+Built by [Taqi Ul Hassan](https://github.com/taqi-ul-hassan) & [Umm E Rubab](https://github.com/ummerubab)
 
 Acknowledgments: [SCIN / Google Research](https://github.com/google-research-datasets/scin), [timm / Ross Wightman](https://github.com/huggingface/pytorch-image-models), [MobileNetV3-Small pretrained model](https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k), PyTorch, torchvision, OpenCV, scikit-learn, Pillow, and Gradio. AI coding and documentation assistance: ChatGPT/Codex.
