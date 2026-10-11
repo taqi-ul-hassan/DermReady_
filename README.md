@@ -18,7 +18,7 @@ The [detailed review](docs/PROJECT_REVIEW.md) covers data, modeling, evaluation,
 
 ## Run the app
 
-For a public hackathon service, use [the Render deployment configuration](docs/DEPLOYMENT.md). The lightweight cloud runtime supports the default JSON baseline and capture workflow. Private artifacts are required for learned results; a public checkout alone runs in indicator-only mode.
+[Deploy on Render](https://render.com/deploy?repo=https://github.com/taqi-ul-hassan/DermReady_) using [the prepared deployment configuration](docs/DEPLOYMENT.md). The lightweight cloud runtime supports the default JSON baseline and capture workflow. Private artifacts are required for learned results; a public checkout alone runs in indicator-only mode.
 
 ### Check → capture again → compare
 

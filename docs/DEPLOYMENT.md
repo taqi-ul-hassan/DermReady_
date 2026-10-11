@@ -32,3 +32,7 @@ The optional CNN is not included in requirements-web.txt; it requires the full d
 The app is a public research demo: use synthetic or permitted non-identifiable examples. Gradio creates temporary files with periodic cleanup; hosting logs and browser caches are not covered by that cleanup. The app blocks serving private data, secret artifact directories and .env, disables analytics/run history and retains no upload records in its dataset. These application settings are not a guarantee of anonymous or instant-deletion hosting.
 
 Official hosting references: https://render.com/docs/blueprint-spec, https://render.com/docs/web-services, https://render.com/docs/free and https://render.com/docs/configure-environment-variables.
+
+## Verified readiness
+
+The lightweight runtime passed 27 targeted regression checks and live synthetic upload/comparison/private-file tests. The actual cloud-mode entry point passed host/PORT startup and private-path checks. Full Linux, full Windows and lightweight-runtime CI all passed for commit 73498d320d48159631677c27c737f8ad308afbb9. See reports/cloud_deployment_checks.json for the run link. No public service has been provisioned yet: the Render account is not connected, and no public URL is verified.

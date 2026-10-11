@@ -10,5 +10,12 @@
   "trained_artifacts_available_in_workspace": false,
   "trained_model_policy_or_coefficients_changed": false,
   "limits": "Startup/API checks are not production load testing or external hosting retention validation.",
-  "lightweight_runtime_regression_tests_passed": 27
+  "lightweight_runtime_regression_tests_passed": 27,
+  "actual_cloud_cli_host_and_port_startup": "passed",
+  "private_cloud_checkpoint_marker_http_status": 403,
+  "cloud_runtime_ci": "passed",
+  "full_linux_ci": "passed",
+  "full_windows_ci": "passed",
+  "ci_verified_commit": "73498d320d48159631677c27c737f8ad308afbb9",
+  "ci_run_url": "https://github.com/taqi-ul-hassan/DermReady_/actions/runs/38118593425"
 }
