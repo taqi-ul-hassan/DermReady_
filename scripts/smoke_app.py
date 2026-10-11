@@ -4,6 +4,7 @@ import argparse
 import os
 from pathlib import Path
 import sys
+import tempfile
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 os.environ['NO_PROXY']=','.join(filter(None,[os.environ.get('NO_PROXY',''),'127.0.0.1','localhost']))
 import httpx
@@ -32,8 +33,11 @@ def main(output='.cache/app_smoke_test.json'):
         assert comparison[0] and comparison[1]
         assert comparison[2]['data'][0][3]>0
         assert 'No clinical improvement or suitability is established' in comparison[3]
-        response=httpx.get(url+'gradio_api/file='+str(Path('data/raw/scin_cases.csv').resolve()),trust_env=False)
-        assert response.status_code in (400,403)
+        Path('data').mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='smoke_private_',dir='data') as private_dir:
+            marker=Path(private_dir)/'marker.txt';marker.write_text('Synthetic private-path smoke marker; no patient data.')
+            response=httpx.get(url+'gradio_api/file='+str(marker.resolve()),trust_env=False)
+            assert response.status_code in (400,403)
         report={'local_server_started':True,'upload_api_success':True,'result_state':result[1],
                 'private_dataset_http_status':response.status_code,'private_dataset_serving_blocked':True,
                 'public_share_enabled':False,'test_images_used':False,'synthetic_upload_only':True,
@@ -47,3 +51,4 @@ def main(output='.cache/app_smoke_test.json'):
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--output',default='.cache/app_smoke_test.json')
     main(parser.parse_args().output)
+

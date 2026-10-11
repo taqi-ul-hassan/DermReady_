@@ -13,14 +13,22 @@ from src.inference import Predictor
 from src.preprocessing import load_image
 from src.perturbations import CONDITIONS, degrade
 from src.feedback import RETAKE, UNCERTAIN, SUITABLE
+from src.experiment_integrity import verified_cases
 
 
-def run(processed_dir='data/processed',raw_dir='data/raw',checkpoint_dir='checkpoints',report_dir='reports'):
+def run(processed_dir='data/processed',raw_dir='data/raw',checkpoint_dir='checkpoints',report_dir='reports',split_dir='data/splits'):
     processed_dir,raw_dir,checkpoint_dir,report_dir=map(Path,(processed_dir,raw_dir,checkpoint_dir,report_dir))
     report_dir.mkdir(parents=True,exist_ok=True)
     output=report_dir/'robustness.json'
     if output.exists():raise FileExistsError('Stress-test report already exists; do not tune on these results.')
     frozen=json.loads((report_dir/'test_freeze.json').read_text())['sha256']
+    records, manifest_hashes = verified_cases(processed_dir, split_dir, raw_dir)
+    for name in ['train', 'validation', 'test']:
+        if hashlib.sha256((Path(split_dir)/(name+'.csv')).read_bytes()).hexdigest()!=frozen['splits/'+name+'.csv']:
+            raise ValueError('Splits differ from final held-out evaluation')
+    for name, digest in manifest_hashes.items():
+        if name in frozen and digest != frozen[name]:
+            raise ValueError('Manifests differ from final held-out evaluation')
     artifact_names=['best.pt','quality_baseline.json','decision_policy.json']
     def hashes():return {n:hashlib.sha256((checkpoint_dir/n).read_bytes()).hexdigest() for n in artifact_names}
     before=hashes()
@@ -29,7 +37,8 @@ def run(processed_dir='data/processed',raw_dir='data/raw',checkpoint_dir='checkp
               'conditions':CONDITIONS,'frozen_sha256':before,
               'interpretation':'Controlled edits have no new clinical suitability labels. Report state transitions, capture proxies and score sensitivity, not corruption accuracy. No model, policy or default changes.'}
     (report_dir/'robustness_protocol.json').write_text(json.dumps(protocol,indent=2)+'\n')
-    rows=sorted([json.loads(s) for s in (processed_dir/'cases.jsonl').read_text().splitlines() if json.loads(s)['split']=='test'],key=lambda r:r['case_id'])
+    rows=sorted([r for r in records if r['split']=='test'],key=lambda r:r['case_id'])
+    if not rows:raise ValueError('No test cases')
     predictors={name:Predictor(checkpoint_dir,model_name=name) for name in ['quality_baseline','cnn']}
     private=[]
     for row in rows:
@@ -64,6 +73,8 @@ def run(processed_dir='data/processed',raw_dir='data/raw',checkpoint_dir='checkp
                 'flag_counts':{f:sum(f in r['flags'] for r in results) for f in ['focus','dark','bright','resolution','unusual_texture']}}
         summary['models'][name]=model
     if hashes()!=before:raise RuntimeError('Artifacts changed during stress tests')
+    _, after_manifests = verified_cases(processed_dir, split_dir, raw_dir)
+    if after_manifests != manifest_hashes:raise RuntimeError('Manifests changed during stress tests')
     (processed_dir/'robustness_predictions.json').write_text(json.dumps(private,indent=2)+'\n')
     output.write_text(json.dumps(summary,indent=2)+'\n')
     fig,axes=plt.subplots(1,2,figsize=(11,4),layout='constrained')
@@ -81,5 +92,6 @@ def run(processed_dir='data/processed',raw_dir='data/raw',checkpoint_dir='checkp
 
 if __name__=='__main__':
     p=argparse.ArgumentParser()
-    for name,default in [('processed-dir','data/processed'),('raw-dir','data/raw'),('checkpoint-dir','checkpoints'),('report-dir','reports')]:p.add_argument('--'+name,default=default)
+    for name,default in [('processed-dir','data/processed'),('raw-dir','data/raw'),('checkpoint-dir','checkpoints'),('report-dir','reports'),('split-dir','data/splits')]:p.add_argument('--'+name,default=default)
     a=p.parse_args();print(json.dumps(run(**vars(a)),indent=2))
+

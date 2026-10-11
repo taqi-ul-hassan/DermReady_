@@ -38,7 +38,7 @@ Open `notebooks/00_environment_setup.ipynb` in Colab. Select Runtime > Change ru
 
 Do not install the CPU lock file in Colab. If the preinstalled Torch pair cannot import or timm fails, use the official PyTorch selector for that runtime's Python/CUDA compatibility, restart the runtime, then rerun checks. Do not label Colab validated until the GPU check and Drive write check pass.
 
-Datasets can be cached in the temporary runtime for speed. Checkpoints, split assignments, and experiment results should be written directly to the generated persistent paths. Training code must honor those paths when it is implemented. The notebook prepares persistence; it does not train or back up an existing model.
+Datasets can be cached in the temporary runtime for speed. Checkpoints, split assignments, and experiment results should be written directly to the generated persistent paths. Training code honors those paths through its directory arguments. The notebook prepares persistence; it does not train or back up an existing model.
 
 Google authorization and GPU allocation cannot be completed from a local terminal. Colab availability varies. CPU remains the development/demo fallback.
 
@@ -52,3 +52,4 @@ Google authorization and GPU allocation cannot be completed from a local termina
 ## Local validation result
 
 Python 3.12.14: dependency consistency, all required imports, synthetic MobileNet CPU execution, OpenCV operation, and Gradio construction passed. See reports/environment_local.json. CUDA is unavailable in this local environment. Restricted CPU-topology detection required disabling the optional NNPACK backend in the checker. Pretrained download, trained checkpoint loading, and CPU prediction have since passed; see reports/steps_06_to_10.md.
+

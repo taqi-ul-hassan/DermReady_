@@ -23,3 +23,10 @@ def test_all_uncertain_and_missing_class():
 
 def test_invalid_states_rejected():
     with pytest.raises(ValueError):three_state_metrics([0],['invented'])
+
+import pytest
+
+@pytest.mark.parametrize('labels,scores',[([],[]),([0,1],[.5]),([0,1],[.2,float('nan')]),([0,1],[.2,1.1]),([0,1.5],[.2,.8])])
+def test_invalid_metric_inputs_cannot_produce_plausible_reports(labels,scores):
+    from src.evaluate import binary_metrics
+    with pytest.raises(ValueError):binary_metrics(labels,scores)

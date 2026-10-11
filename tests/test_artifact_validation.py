@@ -40,3 +40,20 @@ def test_invalid_baseline_falls_back_with_warning(tmp_path):
     result=Predictor(tmp_path,report_dir=tmp_path).predict(Image.new('RGB',(300,300),'gray'))
     assert result['model']=='features_only' and result['score'] is None
     assert 'Feature baseline is invalid' in result['feedback']
+
+
+@pytest.mark.parametrize('models',[['cnn'], 'cnn', None])
+def test_malformed_models_object_falls_back_without_startup_crash(tmp_path,models):
+    from pathlib import Path
+    policy=json.loads(Path('reports/decision_policy.json').read_text());policy['models']=models
+    (tmp_path/'decision_policy.json').write_text(json.dumps(policy))
+    assert Predictor(tmp_path,tmp_path).mode=='features_only'
+
+
+def test_string_band_rejected_before_prediction(tmp_path):
+    from pathlib import Path
+    policy=json.loads(Path('reports/decision_policy.json').read_text())
+    policy['models']['quality_baseline']['retake_below']='0.5'
+    (tmp_path/'decision_policy.json').write_text(json.dumps(policy))
+    assert Predictor(tmp_path,tmp_path).mode=='features_only'
+

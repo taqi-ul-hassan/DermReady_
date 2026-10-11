@@ -36,3 +36,10 @@ Final evaluation scripts refuse to overwrite an existing report. Rerun a frozen 
 A separate workspace and genuinely new virtual environment installed the complete CPU lock from package indexes. No existing site-packages were inherited. The dependency consistency check, all 30 tests, environment imports, synthetic MobileNet CPU forward, real trained-artifact round trips, Gradio construction and a local HTTP upload/private-path-blocking smoke test passed. Test records/data were not copied to this validation workspace; a synthetic private-file marker exercised HTTP blocking.
 
 This checks installation and app reproduction with frozen artifacts, not a second training run or independent replication of the scientific study. Linux/Python 3.12 is maintainer-tested. The user reported a working Windows setup; Windows automated execution and public hosting are not claimed. The GitHub Actions CPU workflow is configured; its remote execution has not been inspected.
+
+
+## Evaluation integrity checks added during project review
+
+New final evaluations verify cases.jsonl, images.csv, assignments and each split against private splits/provenance.json, then check source CSV/inventory hashes, case labels, group IDs, image counts and cross-split image/group leakage before downloading or evaluating images. The freeze additionally records manifest/provenance hashes. Robustness evaluation uses the same verified cohort and checks its split hashes against the final freeze.
+
+These checks protect future runs; they are not a rerun of the published experiment. Keep existing final reports. For a new experiment use separate private checkpoint, processed, split and report directories through the scripts' CLI arguments. Do not overwrite frozen artifacts or tune on the consumed test cohort. Public report paths already contain final results, so evaluation intentionally refuses to overwrite them.

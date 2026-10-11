@@ -58,3 +58,14 @@ After preparing private manifests and frozen artifacts, run `python scripts/eval
 ## Finished delivery materials
 
 See [Windows quick start](WINDOWS_QUICKSTART.md), [reproduction](REPRODUCIBILITY.md), [model card](MODEL_CARD.md), and [demo guide](DEMO_GUIDE.md). Synthetic assets in assets/demo/ contain no patient photographs. Screenshots/final recording are part of the excluded presentation step; no public app hosting was performed.
+
+
+## Verify the installation
+
+From the folder containing app.py, run:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/check_installation.py --require-trained
+```
+
+The checker shows the active system, missing or nested artifact files, and whether the active model/policy match the published hashes. It does not download weights or read medical images. Without `--require-trained`, it also reports a capture-indicators-only installation. A fitted but different artifact may run; historical performance must not be attributed to it.

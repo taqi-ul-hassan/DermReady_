@@ -16,6 +16,7 @@ from src.feedback import SUITABLE, RETAKE, UNCERTAIN
 from src.inference import Predictor
 from src.preprocessing import load_image, preprocess_for_inference
 from src.quality_features import extract_quality_features, aggregate_quality_features
+from src.experiment_integrity import verified_cases
 
 
 def digest(path):
@@ -35,8 +36,12 @@ def run(processed_dir='data/processed', raw_dir='data/raw', checkpoint_dir='chec
     output=report_dir/'heldout_test.json'
     if output.exists():
         raise FileExistsError('Test report already exists. Inspect it; do not repeatedly tune against this cohort.')
+    records, manifest_hashes = verified_cases(processed_dir, split_dir, raw_dir)
     frozen_paths={name:checkpoint_dir/name for name in ['best.pt','quality_baseline.json','decision_policy.json']}
     frozen_paths.update({f'splits/{name}.csv':split_dir/f'{name}.csv' for name in ['train','validation','test']})
+    frozen_paths.update({'processed/cases.jsonl':processed_dir/'cases.jsonl',
+                         'processed/images.csv':processed_dir/'images.csv',
+                         'splits/provenance.json':split_dir/'provenance.json'})
     hashes={name:digest(path) for name,path in frozen_paths.items()}
     policy=json.loads((checkpoint_dir/'decision_policy.json').read_text())
     freeze={'sha256':hashes,'preferred_model':policy['preferred_model'],
@@ -45,7 +50,6 @@ def run(processed_dir='data/processed', raw_dir='data/raw', checkpoint_dir='chec
     decoded=cache(processed_dir,raw_dir,report_dir/'test_decode',splits=('test',))
     if decoded['failed_images']:raise RuntimeError('Test decoding failed: resolve input access without dropping cases.')
     predictors={name:Predictor(checkpoint_dir,model_name=name) for name in ['cnn','quality_baseline']}
-    records=[json.loads(line) for line in (processed_dir/'cases.jsonl').read_text().splitlines()]
     rows=sorted([r for r in records if r['split']=='test'],key=lambda r:r['case_id'])
     if not rows:raise ValueError('No test cases')
     private=[]
@@ -77,7 +81,8 @@ def run(processed_dir='data/processed', raw_dir='data/raw', checkpoint_dir='chec
         result['single_image_weak_proxy'][name]={
             'binary_at_0_5':binary_metrics(labels,[r['single_image'][name]['score'] for r in private]),
             'pipeline':three_state_metrics(labels,[r['single_image'][name]['state'] for r in private])}
-    if hashes!={name:digest(path) for name,path in frozen_paths.items()}:
+    _, after_manifests = verified_cases(processed_dir, split_dir, raw_dir)
+    if after_manifests != manifest_hashes or hashes!={name:digest(path) for name,path in frozen_paths.items()}:
         raise RuntimeError('Frozen artifacts/splits changed during evaluation; results blocked.')
     (processed_dir/'heldout_test_predictions.json').write_text(json.dumps(private,indent=2)+'\n')
     output.write_text(json.dumps(result,indent=2)+'\n')
@@ -99,3 +104,4 @@ if __name__=='__main__':
     for name,default in [('processed-dir','data/processed'),('raw-dir','data/raw'),('checkpoint-dir','checkpoints'),('split-dir','data/splits'),('report-dir','reports')]:
         parser.add_argument('--'+name,default=default)
     args=parser.parse_args();print(json.dumps(run(**{key.replace('-','_'):value for key,value in vars(args).items()}),indent=2))
+

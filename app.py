@@ -9,6 +9,8 @@ from PIL import ImageOps,Image
 from src.inference import Predictor
 from src.feedback import NOTICE
 from src.capture_review import compare_captures, evidence_summary, primary_action
+from src.capture_review import indicator_rows, CAPTURE_CHECKLIST, checklist_progress
+from src.artifact_identity import artifact_identity, evidence_identity_message
 from src.ui_style import HERO, CSS, app_theme
 from src.session_review import ReviewSession
 
@@ -16,7 +18,7 @@ ROOT = Path(__file__).resolve().parent
 
 
 def build_app(predictor=None):
-    predictor=predictor or Predictor(os.environ.get('DERMREADY_CHECKPOINT_DIR','checkpoints'))
+    predictor=predictor or Predictor(os.environ.get('DERMREADY_CHECKPOINT_DIR',str(ROOT/'checkpoints')),ROOT/'reports')
     def analyze_raw(filepath):
         if not filepath:return None,'Choose a photograph',[], 'Upload one PNG, JPEG, or still WebP image.', ''
         try:
@@ -25,13 +27,7 @@ def build_app(predictor=None):
             return None,'Unable to assess',[],str(exc),''
         except Exception:
             return None,'Unable to assess',[],'The image could not be processed. Try another image or restart the local app.',''
-        f=result['features'];m=result['metadata']
-        indicators=[['Focus proxy',f"{f['blur_log_laplacian']:.2f}"],
-                    ['Mean brightness',f"{100*f['brightness_mean']:.1f}%"],
-                    ['Dark pixels',f"{100*f['dark_fraction']:.1f}%"],
-                    ['Bright pixels',f"{100*f['bright_fraction']:.1f}%"],
-                    ['Contrast proxy',f"{f['contrast_std']:.3f}"],
-                    ['Resolution',f"{m['width']} × {m['height']} pixels"]]
+        indicators=indicator_rows(result,predictor.quality_thresholds)
         detail=f"Active system: {result['model']}. "
         if result['score'] is not None:detail+=f"Uncalibrated research score: {result['score']:.3f}. "
         detail+='Single-image estimate uses weak case-label validation. The score is not a probability of clinical adequacy.'
@@ -86,17 +82,22 @@ def build_app(predictor=None):
                         preview=gr.Image(label='Your photograph',interactive=False,elem_id='capture-preview')
                         state=gr.Textbox(label='Research assessment',interactive=False,placeholder='Ready when you are',elem_id='assessment')
                 with gr.Row(elem_classes='insights-row'):
-                    indicators=gr.Dataframe(headers=['Capture indicator','Value'],datatype=['str','str'],interactive=False,label='Image indicators')
+                    indicators=gr.Dataframe(headers=['Capture indicator','Value','Interpretation'],datatype=['str']*3,interactive=False,label='Image indicators')
                     feedback=gr.Textbox(label='Suggested next action',lines=8,interactive=False)
                 with gr.Accordion('How to interpret this result',open=False):
                     detail=gr.Textbox(label='Research estimate',interactive=False)
                     gr.Markdown('Focus and exposure values are imperfect proxies. Framing and unrelated-image detection are not validated. A retake may not fix insufficient clinical information. Held-out results are limited and use case labels as a single-image proxy; clinical adequacy is not established.')
+                    gr.Markdown('**No reference flag** means the distribution-based guard did not trigger. It is not a pass or a guarantee of image quality. **Inspect visually** identifies a signal to check, rather than a confirmed defect.')
                 with gr.Accordion('Try a permitted example',open=False):
                     gr.Markdown('These artificial capture targets contain no patients or skin photographs. They demonstrate indicator behavior, not clinical accuracy. Missing artifacts keep every suitability result uncertain.')
                     gr.Examples(examples=[[str(ROOT/'assets/demo'/name)] for name in ['synthetic_original.png','synthetic_blur.png','synthetic_dark.png','synthetic_noise.png']],inputs=upload)
             with gr.Tab('Compare a retake'):
                 gr.Markdown('### Small changes, side by side',elem_classes='comparison-heading')
                 gr.Markdown('Upload two independently captured photographs with similar framing. This compares measurable signals; it does not judge which photograph is clinically adequate or modify either image.')
+                with gr.Accordion('Prepare your next capture',open=False):
+                    checklist=gr.CheckboxGroup(choices=CAPTURE_CHECKLIST,value=[],interactive=True,label='Your preparation checklist (optional)',elem_id='capture-checklist')
+                    progress=gr.Markdown(checklist_progress([]))
+                    checklist.change(checklist_progress,inputs=checklist,outputs=progress,api_name=False,queue=False)
                 with gr.Row():
                     original=gr.File(label='Original photograph',file_types=['.png','.jpg','.jpeg','.webp'],type='filepath')
                     retake=gr.File(label='New capture',file_types=['.png','.jpg','.jpeg','.webp'],type='filepath')
@@ -113,6 +114,8 @@ def build_app(predictor=None):
                     capture.change(reset_comparison,inputs=[original,retake,comparison_session],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name=False,queue=False)
             with gr.Tab('Evidence & limits'):
                 gr.Markdown(NOTICE)
+                identity=artifact_identity(predictor.directory,ROOT/'reports/model_artifacts.json',predictor.mode)
+                gr.Markdown('**Evidence provenance:** '+evidence_identity_message(identity,predictor.mode))
                 gr.Markdown('### Frozen evaluation, separate from your upload\n107 held-out cases: 23 ungradable and 84 gradable. Each contributes one first-listed image with a **weak case-label proxy**, not a clinical image-level label. The default baseline returned 12 suitable, 34 retake, and 61 uncertain outputs.')
                 evidence=evidence_summary(ROOT/'reports/heldout_test.json')
                 gr.Dataframe(value=evidence,headers=['System','False acceptance','False rejection','Decision coverage','Uncertain'],datatype=['str']*5,interactive=False)
@@ -129,13 +132,14 @@ def build_app(predictor=None):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--checkpoint-dir',default=os.environ.get('DERMREADY_CHECKPOINT_DIR','checkpoints'))
+    p=argparse.ArgumentParser();p.add_argument('--checkpoint-dir',default=os.environ.get('DERMREADY_CHECKPOINT_DIR',str(ROOT/'checkpoints')))
     p.add_argument('--model',choices=['cnn','quality_baseline']);p.add_argument('--port',type=int,default=7860)
-    args=p.parse_args();predictor=Predictor(args.checkpoint_dir,model_name=args.model)
+    args=p.parse_args();predictor=Predictor(args.checkpoint_dir,report_dir=ROOT/'reports',model_name=args.model)
     demo=build_app(predictor)
     demo.launch(server_name='127.0.0.1',server_port=args.port,share=False,show_error=False,
-                blocked_paths=[str(Path(p).resolve()) for p in ['data',args.checkpoint_dir,'.env']],
+                blocked_paths=[str((ROOT/'data').resolve()),str(Path(args.checkpoint_dir).resolve()),str((ROOT/'.env').resolve())],
                 max_file_size='20mb',run_history=False,enable_monitoring=False,mcp_server=False,
                 theme=app_theme(),css=CSS,footer_links=[])
 
 if __name__=='__main__':main()
+

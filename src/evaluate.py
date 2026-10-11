@@ -4,7 +4,10 @@ from sklearn.metrics import balanced_accuracy_score, confusion_matrix, f1_score,
 
 
 def binary_metrics(labels, scores, threshold=.5):
-    y=np.asarray(labels,dtype=int);p=np.asarray(scores,dtype=float);pred=(p>=threshold).astype(int)
+    raw=np.asarray(labels);p=np.asarray(scores,dtype=float)
+    if raw.ndim!=1 or p.ndim!=1 or not len(raw) or len(raw)!=len(p) or not np.isin(raw,[0,1]).all() or not np.isfinite(p).all() or ((p<0)|(p>1)).any() or not np.isfinite(threshold) or not 0<=threshold<=1:
+        raise ValueError('Matching nonempty binary labels and finite scores/threshold in [0,1] required')
+    y=raw.astype(int);pred=(p>=threshold).astype(int)
     tn,fp,fn,tp=confusion_matrix(y,pred,labels=[0,1]).ravel()
     return {'unit':'case','threshold':float(threshold),'cases':len(y),
             'class_counts':{'ungradable':int((y==0).sum()),'gradable':int((y==1).sum())},
@@ -31,10 +34,11 @@ def wilson_interval(successes,total):
 def three_state_metrics(labels, states):
     """Case-label weak proxy; uncertain cases remain in error-rate denominators."""
     from .feedback import RETAKE, UNCERTAIN, SUITABLE
-    y=np.asarray(labels,dtype=int);s=np.asarray(states)
+    raw=np.asarray(labels);s=np.asarray(states)
     ordered=[RETAKE,UNCERTAIN,SUITABLE]
-    if len(y)!=len(s) or not len(y) or not set(y).issubset({0,1}) or not set(s).issubset(set(ordered)):
+    if raw.ndim!=1 or s.ndim!=1 or len(raw)!=len(s) or not len(raw) or not np.isin(raw,[0,1]).all() or not set(s).issubset(set(ordered)):
         raise ValueError('Nonempty matching labels and supported states required')
+    y=raw.astype(int)
     n0=int((y==0).sum());n1=int((y==1).sum())
     fa=int(((y==0)&(s==SUITABLE)).sum());fr=int(((y==1)&(s==RETAKE)).sum())
     ungradable_retake=int(((y==0)&(s==RETAKE)).sum())
@@ -51,3 +55,4 @@ def three_state_metrics(labels, states):
             'accepted_ungradable_fraction':fa/counts[SUITABLE] if counts[SUITABLE] else None,
             'denominators':'False acceptance and retake recall: all ungradable cases. False rejection: all gradable cases. Coverage: all cases. Accepted contamination: all suitable outputs. Uncertain outputs remain in total/class denominators.',
             'interpretation':'Three-state recall counts explicit retake only; uncertainty is not a correct rejection. Binary F1/balanced accuracy are reported separately at fixed 0.5.'}
+

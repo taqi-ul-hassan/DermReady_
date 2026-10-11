@@ -17,6 +17,9 @@ def cache(processed_dir, raw_dir, report_dir, splits=('train','validation')):
     processed_dir, raw_dir, report_dir = map(Path,(processed_dir,raw_dir,report_dir))
     table=pd.read_csv(processed_dir/'images.csv',dtype={'case_id':str},keep_default_na=False)
     rows=table[table.split.isin(splits)].drop_duplicates('image_path').to_dict('records')
+    names = [Path(row['image_path']).name for row in rows]
+    if len(names) != len(set(names)):
+        raise ValueError('Distinct image paths share a cache filename; resolve before downloading')
     target=raw_dir/'images';target.mkdir(parents=True,exist_ok=True)
     with httpx.Client(timeout=60,follow_redirects=True) as client:
         def process(row):
@@ -61,3 +64,4 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--processed-dir',default='data/processed');p.add_argument('--raw-dir',default='data/raw');p.add_argument('--report-dir',default='reports')
     args=p.parse_args();report=cache(args.processed_dir,args.raw_dir,args.report_dir);print(json.dumps(report,indent=2))
     if report['failed_images']:raise SystemExit(1)
+

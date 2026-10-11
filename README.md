@@ -12,6 +12,10 @@ The default is the quality-feature baseline because the full guarded validation 
 
 See [steps 6–10 report](reports/steps_06_to_10.md), [data audit](reports/data_audit.md), and [split summary](reports/split_summary.md).
 
+## Comprehensive project review
+
+The [detailed review](docs/PROJECT_REVIEW.md) covers data, modeling, evaluation, app behavior, privacy, setup and remaining research gaps. Improvements include evaluation-manifest integrity, a fitted-artifact installation checker, evidence provenance in the UI, interpreted capture indicators, a preparation checklist and retake comparability warnings. Frozen weights, thresholds and scientific results remain unchanged.
+
 ## Run the app
 
 ### Check → capture again → compare
@@ -22,11 +26,12 @@ The active mode is visible immediately. A public checkout without private fitted
 
 ![DermReady capture-review interface](assets/demo/frontend_desktop.png)
 
-Actual desktop screenshot in capture-indicators-only mode. The responsive interface separates checking, retake comparison, and research evidence into tabs; it also supports narrow phone screens.
+Desktop screenshot from an earlier interface revision in capture-indicators-only mode. The responsive interface separates checking, retake comparison, and research evidence into tabs; it also supports narrow phone screens.
 
 Place best.pt, quality_baseline.json, and decision_policy.json from the private trained-artifact bundle in checkpoints/. Then:
 
 ```bash
+python scripts/check_installation.py --require-trained
 python app.py
 # Optional MobileNet path:
 python app.py --model cnn
@@ -86,7 +91,7 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 | Path | Responsibility |
 | --- | --- |
 | app.py | Working local Gradio entry point |
-| configs/experiment.yaml | Provisional experiment settings |
+| configs/experiment.yaml | Recorded experiment settings |
 | src/data_loader.py | Cases and explicit label parsing |
 | src/splits.py | Connected groups, assignment, leakage verification |
 | scripts/prepare_scin.py | Private manifests and reproducible split files |
@@ -100,7 +105,7 @@ Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integrat
 | src/perturbations.py | Controlled stress tests |
 | src/explain.py | Optional model visualization |
 | notebooks/ | Executable setup, audit, split, and training notebooks |
-| tests/ | 34 automated checks; trained round-trip requires private artifacts |
+| tests/ | Automated regression checks; trained round-trip requires private artifacts |
 | data/ | Local dataset and split artifacts |
 | checkpoints/ | Local model files |
 | reports/ | Audit, aggregate metrics, figures |
@@ -150,3 +155,4 @@ Official event rules were reviewed; deadline sources conflict. See docs/EVENT_RU
 - [PyTorch](https://pytorch.org/), [torchvision](https://github.com/pytorch/vision), [OpenCV](https://opencv.org/), [scikit-learn](https://scikit-learn.org/), [Pillow](https://python-pillow.github.io/), [Gradio](https://www.gradio.app/). See requirements files for all dependencies.
 - SCIN and Ward et al.: attribution and separate data terms in docs/SCIN_USAGE.md.
 - AI coding/documentation assistance: ChatGPT/Codex.
+

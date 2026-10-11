@@ -1,0 +1,21 @@
+{
+  "reviewed_base_commit": "d831b9ae25f6fa0f9f1dcb36c93af7a28076b21f",
+  "automated_tests": {
+    "passed": 65,
+    "skipped": 1,
+    "skip_reason": "Private trained artifact round-trip unavailable in this workspace"
+  },
+  "dependency_consistency": "passed",
+  "environment_imports_and_synthetic_cpu_forward": "passed",
+  "assessment_api": "passed",
+  "retake_comparison_api": "passed",
+  "existing_private_marker_http_status": 403,
+  "frontend_construction_and_reference_css": "passed",
+  "default_mode_in_workspace": "features_only",
+  "new_patient_evaluation": false,
+  "demographic_fairness_evaluation": false,
+  "frozen_weights_policy_and_scientific_results_changed": false,
+  "browser_visual_comparison": "not performed",
+  "windows_ci": "configured; remote outcome not yet verified",
+  "manifest_integrity": "synthetic altered-input and split-metadata tests passed"
+}

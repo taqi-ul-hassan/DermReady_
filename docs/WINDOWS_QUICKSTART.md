@@ -34,3 +34,14 @@ Download/extract a fresh repository ZIP into a new folder. Copy your private che
 - Port in use: stop the earlier process or use `app.py --port 7861`, then open http://127.0.0.1:7861.
 
 The maintainer's fresh environment checks are Linux/Python 3.12; the user reported a working Windows install. Automated Windows testing is not claimed.
+
+
+## Verify the installation
+
+From the folder containing app.py, run:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/check_installation.py --require-trained
+```
+
+The checker shows the active system, missing or nested artifact files, and whether the active model/policy match the published hashes. It does not download weights or read medical images. Without `--require-trained`, it also reports a capture-indicators-only installation. A fitted but different artifact may run; historical performance must not be attributed to it.
