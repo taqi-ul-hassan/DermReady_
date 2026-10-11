@@ -1,160 +1,239 @@
 # DermReady
 
-Image-suitability quality gate for dermatology photography.
+### Check the capture. Improve the retake. Prepare for review.
 
-> Research prototype only; not a diagnosis or substitute for medical advice. Results cannot guarantee clinical adequacy. Follow your clinician's instructions.
+DermReady helps people preparing photographs for remote dermatology review identify potentially correctable capture problems. It combines measurable image-quality indicators, a fitted research baseline, and a guided **check → retake → compare** workflow.
 
-## Status
+[**Open the live demo**](https://dermready-hackathon.onrender.com/) · [Demo guide](docs/DEMO_GUIDE.md) · [Model card](docs/MODEL_CARD.md) · [Evaluation](reports/heldout_test.md)
 
-Steps 1–14 are implemented (final presentation/submission excluded): repository, environments, SCIN audit, saved grouped splits, preprocessing, quality baseline, pretrained MobileNet training, validation-selected three-state policies, and a working local Gradio app.
+![Tests](https://github.com/taqi-ul-hassan/DermReady_/actions/workflows/tests.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-The default is the quality-feature baseline because the full guarded validation policy had fewer false acceptances. A trained MobileNet option is available. Validation performance is weak, single-image labels are case-derived proxies, and clinical adequacy is not established. The frozen held-out evaluation is complete on 107 cases; test results did not alter training, thresholds, or the default model. The default single-image pipeline had 1/23 weak-proxy false acceptances, 25/84 false rejections, and 61/107 uncertain outputs. See [held-out evaluation](reports/heldout_test.md). Controlled blur and lighting stress tests are complete; see [robustness results](reports/robustness.md).
+> **Research prototype:** DermReady assesses capture indicators and estimates suitability for review. It does not diagnose skin conditions or guarantee clinical adequacy. A clinician remains responsible for clinical assessment.
 
-See [steps 6–10 report](reports/steps_06_to_10.md), [data audit](reports/data_audit.md), and [split summary](reports/split_summary.md).
+## Why DermReady?
 
-## Comprehensive project review
+A photograph can be difficult to review because of blur, lighting, low resolution, or insufficient visual information. DermReady gives users actionable capture guidance before they submit a photo and helps them inspect changes after taking another.
 
-The [detailed review](docs/PROJECT_REVIEW.md) covers data, modeling, evaluation, app behavior, privacy, setup and remaining research gaps. Improvements include evaluation-manifest integrity, a fitted-artifact installation checker, evidence provenance in the UI, interpreted capture indicators, a preparation checklist and retake comparability warnings. Frozen weights, thresholds and scientific results remain unchanged.
+Its central design choice is to make uncertainty visible. Measurements, model outputs, retake suggestions, and historical evaluation evidence are presented separately so users can understand what each result supports.
 
-## Run the app
+## Features
 
-[Deploy on Render](https://render.com/deploy?repo=https://github.com/taqi-ul-hassan/DermReady_) using [the prepared deployment configuration](docs/DEPLOYMENT.md). The lightweight cloud runtime supports the default JSON baseline and capture workflow. Private artifacts are required for learned results; a public checkout alone runs in indicator-only mode.
+| Feature | What it provides |
+| --- | --- |
+| Single-photo check | Validated image upload, preview, and a three-state suitability estimate |
+| Capture indicators | Focus, brightness, contrast, clipping, and resolution measurements |
+| Retake guidance | Prioritized, non-diagnostic suggestions based on supported indicators |
+| Before-and-after comparison | Side-by-side previews and measured changes in capture quality |
+| Comparison checks | Warnings for duplicate images and differences in dimensions, aspect ratio, or color |
+| Preparation checklist | User-reported capture preparation, separate from model inputs |
+| Evidence & limits | Frozen evaluation results, uncertainty coverage, and artifact provenance |
+| Synthetic examples | Patient-free targets for exploring blur, lighting, and noise behavior |
+| Lightweight hosting | Default baseline inference without loading PyTorch |
 
-### Check → capture again → compare
+## Try the live demo
 
-DermReady now offers a capture-review workflow: inspect an original, follow the prioritized next action, then compare it with a newly captured photograph. The comparison shows focus, exposure, clipping and contrast changes with side-by-side previews. It does not alter photographs or claim clinical improvement. Permitted synthetic examples are available in the app, and the evidence panel shows frozen error rates alongside decision coverage and uncertainty.
+**[dermready-hackathon.onrender.com](https://dermready-hackathon.onrender.com/)**
 
-The active mode is visible immediately. A public checkout without private fitted artifacts supports capture indicators and comparison; learned suitability decisions require the artifact bundle. See [demo guide](docs/DEMO_GUIDE.md) and [submission draft](docs/SUBMISSION_DRAFT.md).
+1. Open the app and check the **Current mode** label.
+2. Use a supplied synthetic example or a permitted, non-identifiable photograph.
+3. Review the result, capture indicators, and suggested next action.
+4. Take another photograph and use the comparison tab to inspect changes.
+5. Open **Evidence & limits** to understand the research basis.
+
+The hosted app was verified on **11 October 2026** with the fitted `quality_baseline` active and its model/policy hashes matching the published evaluation artifacts. Render's free service may take time to wake after inactivity.
+
+### Understanding the result
+
+| Result | Interpretation |
+| --- | --- |
+| **Likely suitable for review** | The input passes the fitted research policy; clinical adequacy is not guaranteed |
+| **May need a retake** | The policy indicates a retake may help; inspect the supporting guidance |
+| **Uncertain** | The system cannot make a supported suitability decision |
+
+Uncertainty is an intended outcome. A favorable focus or brightness measurement alone does not establish that a photograph contains sufficient clinical information.
+
+## Interface
 
 ![DermReady capture-review interface](assets/demo/frontend_desktop.png)
 
-Desktop screenshot from an earlier interface revision in capture-indicators-only mode. The responsive interface separates checking, retake comparison, and research evidence into tabs; it also supports narrow phone screens.
+*Earlier desktop interface revision in capture-indicators-only mode. The current app includes checking, retake comparison, and research evidence tabs.*
 
-Place best.pt, quality_baseline.json, and decision_policy.json from the private trained-artifact bundle in checkpoints/. Then:
+## Run locally
+
+Use **Python 3.12**. Trained artifacts are distributed separately and are not included in the public repository.
+
+### Windows — PowerShell
+
+```powershell
+git clone https://github.com/taqi-ul-hassan/DermReady_.git
+cd DermReady_
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-web.txt
+python app.py
+```
+
+If PowerShell blocks activation, run the environment's Python directly:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-web.txt
+.\.venv\Scripts\python.exe app.py
+```
+
+### macOS / Linux
+
+```bash
+git clone https://github.com/taqi-ul-hassan/DermReady_.git
+cd DermReady_
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-web.txt
+python app.py
+```
+
+Open **http://127.0.0.1:7860**.
+
+Without fitted artifacts, the app runs in explicitly labeled **capture-indicators-only mode** and returns **Uncertain** for suitability. Indicators and comparison remain available.
+
+### Enable the fitted baseline
+
+Extract these files from your existing trained-artifact bundle directly into `checkpoints/`:
+
+| File | Purpose |
+| --- | --- |
+| `quality_baseline.json` | Fitted feature baseline |
+| `decision_policy.json` | Frozen decision policy and quality thresholds |
+
+Keep the exact filenames and contents. Avoid an extra nested folder or a hidden `.txt` extension.
 
 ```bash
 python scripts/check_installation.py --require-trained
 python app.py
-# Optional MobileNet path:
+```
+
+The readiness checker reports whether a fitted system loads and whether its identity matches the published evaluation.
+
+### Optional CNN and training environment
+
+The MobileNetV3-Small path needs the full dependencies and private `best.pt`, together with its matching decision policy. Follow the [environment guide](docs/ENVIRONMENT.md), then run:
+
+```bash
 python app.py --model cnn
 ```
 
-Open http://127.0.0.1:7860. Without fitted artifacts the app starts in explicitly labeled features-only mode and returns uncertain.
-See [Windows quick start](docs/WINDOWS_QUICKSTART.md), [run guide](docs/RUN_APP.md), [reproduction guide](docs/REPRODUCIBILITY.md), and [model card](docs/MODEL_CARD.md). Double-click launch_windows.bat after installing dependencies. The [Colab training notebook](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/03_train_and_prepare_demo.ipynb) writes private artifacts to your Drive and does not publish a share link.
+For training and evaluation, see the [reproduction guide](docs/REPRODUCIBILITY.md) and [Colab notebook](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/03_train_and_prepare_demo.ipynb).
 
-## Goal and target users
+## How it works
 
-Help a person preparing photographs for remote dermatology review identify potentially correctable capture problems before submission. A clinician or service remains responsible for clinical review.
+1. **Validate and prepare:** inspect the uploaded image, handle orientation and transparency, and extract capture-quality features.
+2. **Estimate:** apply the fitted quality-feature baseline. An optional CNN uses case-aggregated image embeddings.
+3. **Apply the frozen policy:** combine the score, decision bands, and supported quality guards to return one of three states.
+4. **Explain and compare:** show the decision reason and measured indicators; compare a subsequent capture without altering either image.
 
-## MVP
+The default baseline was selected using validation data because its full guarded policy produced fewer false acceptances. Model selection and thresholds were frozen before held-out testing.
 
-- Upload one photograph through a Gradio interface.
-- Return **likely suitable for review**, **may need a retake**, or **uncertain**.
-- Display blur, exposure/brightness, contrast, and resolution indicators.
-- Offer non-diagnostic capture guidance supported by those indicators.
-- Display the research-only notice.
-- Provide reproducible held-out evaluation and documented limitations.
+**Stack:** Python · Gradio · NumPy · OpenCV · Pillow  
+**Research tooling:** PyTorch · timm · scikit-learn · Google Colab
 
-## Two separate tasks
+## Evaluation and scientific scope
 
-1. Estimate dermatologist-assessed **case/image-set gradability** using SCIN labels.
-2. Measure capture-quality proxies and evaluate controlled degradations.
+DermReady uses **SCIN case-level gradability supervision**. These labels concern whether a case can be assessed; they are not definitive image-level labels for blur, lighting, or clinical adequacy.
 
-SCIN ungradable labels can reflect insufficient information, multiple conditions, no discernible pathology, or image quality. They are not ground truth for blur or poor lighting.
+The audited consensus cohort contains **710 cases**, split into **497 training**, **106 validation**, and **107 test** cases. Cases connected by shared image paths or known content hashes stay together to reduce leakage.
 
-## Modeling decision
+The single-image held-out evaluation uses the first-listed image from each case and a **weak case-label proxy**. Its 107 cases include 84 gradable and 23 ungradable cases.
 
-Use case-level supervision and splitting. Preserve all image references and label provenance for each case. The feature baseline aggregates per-image capture measures; the CNN averages per-image embeddings before case classification. Both use case-level supervision.
-
-The MVP accepts a single image, which is less information than a multi-image case. Any score from that input must be described as a limited single-image estimate from a case-trained system and evaluated separately. Do not silently copy case labels onto images as definitive image-level labels.
-
-Audited consensus policy: explicitly map the two unambiguous categorical values; exclude no-discernible-pathology votes, missing votes, ties, and cases with fewer than two valid votes; stop on unknown categorical values. This retains 710 cases before missing-image handling. See reports/data_audit.md for the mapping and cohort selection limits. Cases connected by shared image paths or known content hashes remain in one split. The saved splits contain 497 training, 106 validation, and 107 test cases.
-
-## Success criteria
-
-- Dataset schema and terms reviewed; provenance recorded.
-- Saved train/validation/test splits contain no overlapping case IDs.
-- A learned model or honestly labeled quality-feature baseline runs end to end.
-- Held-out results include ungradable recall, false acceptance, false rejection, confusion matrix, and uncertain-output coverage.
-- At least two controlled degradation types evaluated.
-- All three UI states and supported feedback work.
-- Setup and evaluation can be reproduced; demo and backup recording ready.
-
-Thresholds and any numeric performance target will be set using validation data and documented before test evaluation. There is no clinically validated threshold.
-
-## Scope
-
-Required: lightweight baseline, image-quality features, three-state feedback, Gradio demo, evaluation report.
-Optional after MVP: feature classifier, Grad-CAM, subgroup analysis with adequate counts, additional corruptions, multi-image upload.
-Excluded: disease diagnosis, cancer screening, clinical deployment, EHR integration, mobile app, generative enhancement in the decision pipeline.
-
-## Repository layout
-
-| Path | Responsibility |
+| Default baseline result | Held-out count |
 | --- | --- |
-| app.py | Working local Gradio entry point |
-| configs/experiment.yaml | Recorded experiment settings |
-| src/data_loader.py | Cases and explicit label parsing |
-| src/splits.py | Connected groups, assignment, leakage verification |
-| scripts/prepare_scin.py | Private manifests and reproducible split files |
-| src/preprocessing.py | Upload validation and transforms |
-| src/quality_features.py | Capture-quality proxies |
-| src/model.py | Classifier and case aggregation |
-| src/train.py | Training and checkpointing |
-| src/evaluate.py | Held-out metrics |
-| src/inference.py | Model loading and predictions |
-| src/feedback.py | States and supported retake guidance |
-| src/perturbations.py | Controlled stress tests |
-| src/explain.py | Optional model visualization |
-| notebooks/ | Executable setup, audit, split, and training notebooks |
-| tests/ | Automated regression checks; trained round-trip requires private artifacts |
-| data/ | Local dataset and split artifacts |
-| checkpoints/ | Local model files |
-| reports/ | Audit, aggregate metrics, figures |
-| assets/demo/ | Permitted public examples only |
-| docs/ | Scope, task list, data/privacy notes |
+| Likely suitable for review | 12 / 107 |
+| May need a retake | 34 / 107 |
+| Uncertain | 61 / 107 |
+| Decision coverage | 46 / 107, approximately 43% |
+| False acceptance | 1 / 23 ungradable cases |
+| False rejection | 25 / 84 gradable cases |
 
-## Environment setup
+False acceptance has a **95% interval of 0.8–21.0%**. Error denominators include all cases in the corresponding class, including uncertain outputs. These small-sample results do not establish clinical safety or generalization to every dermatology image.
 
-See [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) for local CPU installation and full-lock reproduction.
-The tested Linux/Python 3.12 snapshot is in requirements-cpu.lock.txt. Direct dependencies are pinned in requirements.txt.
+Controlled blur and lighting stress tests are documented separately. Synthetic examples demonstrate indicator behavior; they are not clinical validation.
+
+See the [held-out report](reports/heldout_test.md), [robustness report](reports/robustness.md), [data audit](reports/data_audit.md), and [split summary](reports/split_summary.md).
+
+### Current limitations
+
+- Single-image use provides less information than the multi-image cases used for supervision.
+- No validated skin detector or clinical framing assessment is established.
+- Skin-tone and other demographic subgroup performance have not been established.
+- External clinical validation and expert image-level annotations remain future work.
+- Changing decision thresholds simply to reduce uncertainty would require new validation.
+
+## Deploy your own instance
+
+[**Deploy on Render**](https://render.com/deploy?repo=https://github.com/taqi-ul-hassan/DermReady_)
+
+The repository includes `render.yaml` for a free Python web service. For manual setup:
+
+| Setting | Value |
+| --- | --- |
+| Branch | `main` |
+| Build command | `python -m pip install -r requirements-web.txt` |
+| Start command | `python app.py --host 0.0.0.0` |
+| Health check | `/` |
+| Checkpoint directory variable | `DERMREADY_CHECKPOINT_DIR=/etc/secrets` |
+
+Add `quality_baseline.json` and `decision_policy.json` as **Render Secret Files**, preserving their complete contents, then redeploy. Confirm the current-mode label and artifact provenance in the app.
+
+Do not commit private fitted artifacts or dataset files. The lightweight hosted runtime supports the baseline; the optional CNN needs full dependencies and suitable resources. See the [deployment guide](docs/DEPLOYMENT.md) for all environment settings and checks.
+
+## Repository guide
+
+| Path | Contents |
+| --- | --- |
+| `app.py` | Gradio app and capture-review workflow |
+| `src/` | Data handling, preprocessing, features, models, inference, and feedback |
+| `scripts/` | Dataset preparation, integrity checks, and installation checks |
+| `notebooks/` | Environment, audit, split, and training workflows |
+| `configs/` | Experiment configuration |
+| `tests/` | Automated regression checks |
+| `reports/` | Published aggregate results and artifact provenance |
+| `docs/` | Setup, deployment, model card, privacy, and research documentation |
+| `assets/demo/` | Permitted public demonstration assets |
+| `checkpoints/` | Local private model artifacts |
+| `data/` | Local private dataset and split artifacts |
+
+## Verification
+
+The project includes full-runtime Linux and Windows CI plus lightweight cloud-runtime checks. The deployment preparation passed startup, synthetic upload/comparison, and private-path access checks.
+
+For the full development environment:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
-python -m pip install -r requirements.txt
 python -m pip check
-python scripts/check_environment.py
+python -m pytest
 ```
 
-[Open the environment notebook in Colab](https://colab.research.google.com/github/taqi-ul-hassan/DermReady_/blob/main/notebooks/00_environment_setup.ipynb).
-It checks CUDA and prepares persistent Google Drive output directories. Do not install the CPU lock file in Colab.
-The user reports completing Colab setup; live outputs were not independently inspected. Real CPU checkpoint inference has passed. The app runs locally; trained artifacts are kept outside public Git.
+Private trained-artifact checks require the matching artifact bundle. Consult the [project review](docs/PROJECT_REVIEW.md) for verified improvements and outstanding research gaps.
 
-## Data, privacy, and license
+## Privacy and responsible use
 
-SCIN has separate data-use terms; the code license does not license dataset images, labels, or pretrained weights. The current official terms were reviewed for this audit; see docs/SCIN_USAGE.md and recheck before sharing material.
-Do not commit dataset images, case manifests, model weights, credentials, or private uploads.
-Uploads are not added to datasets/logs. Gradio temporary upload/preview files are configured for periodic cleanup; public hosting/cache behavior remains unverified.
-Only explicitly permitted examples belong in assets/demo.
+Use only synthetic or permitted, non-identifiable images in the public demo. Uploaded photographs are not added to the training dataset. Gradio temporary upload/preview files have periodic cleanup; hosting logs and browser caches are outside that cleanup.
 
-## Sources to verify before implementation
+The app blocks private data and artifact paths and disables analytics/run history. These settings do not guarantee anonymous hosting or instant deletion. Never commit patient photographs, case manifests, credentials, or private model files.
 
-- [SCIN repository](https://github.com/google-research-datasets/scin)
-- [SCIN schema](https://github.com/google-research-datasets/scin/blob/main/dataset_schema.md)
-- [SCIN Data Use License](https://github.com/google-research-datasets/scin/blob/main/LICENSE)
-- [SCIN dataset viewer](https://huggingface.co/datasets/google/scin)
-- [Banana Hacks FAQ](https://www.bananahacks.tech/faq)
-- [Banana Hacks code of conduct](https://www.bananahacks.tech/code-of-conduct)
+## Documentation
 
-Official event rules were reviewed; deadline sources conflict. See docs/EVENT_RULES.md. User eligibility and the announced challenge/theme are not independently verified.
+- [Windows quick start](docs/WINDOWS_QUICKSTART.md)
+- [Run guide](docs/RUN_APP.md)
+- [Deployment guide](docs/DEPLOYMENT.md)
+- [Reproduction guide](docs/REPRODUCIBILITY.md)
+- [Model card](docs/MODEL_CARD.md)
+- [Comprehensive project review](docs/PROJECT_REVIEW.md)
+- [SCIN usage and attribution](docs/SCIN_USAGE.md)
 
-## Model and library attribution
+## License and acknowledgments
 
-- [timm / Ross Wightman](https://github.com/huggingface/pytorch-image-models), Apache 2.0.
-- [Pretrained MobileNetV3-Small model card](https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k), ImageNet-1k initialization, Apache 2.0 model-card license. DermReady adds a trained case head; later backbone fine-tuning was not selected.
-- [PyTorch](https://pytorch.org/), [torchvision](https://github.com/pytorch/vision), [OpenCV](https://opencv.org/), [scikit-learn](https://scikit-learn.org/), [Pillow](https://python-pillow.github.io/), [Gradio](https://www.gradio.app/). See requirements files for all dependencies.
-- SCIN and Ward et al.: attribution and separate data terms in docs/SCIN_USAGE.md.
-- AI coding/documentation assistance: ChatGPT/Codex.
+The project code is released under the [MIT License](LICENSE). Dataset images, labels, and pretrained weights have separate terms; the code license does not grant rights to those materials.
 
+Built by [Taqi Ul Hassan](https://github.com/taqi-ul-hassan).
+
+Acknowledgments: [SCIN / Google Research](https://github.com/google-research-datasets/scin), [timm / Ross Wightman](https://github.com/huggingface/pytorch-image-models), [MobileNetV3-Small pretrained model](https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k), PyTorch, torchvision, OpenCV, scikit-learn, Pillow, and Gradio. AI coding and documentation assistance: ChatGPT/Codex.
