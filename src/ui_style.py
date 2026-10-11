@@ -91,7 +91,7 @@ body {background: #ffffff;}
   --body-background-fill:#ffffff;
   --block-background-fill:#ffffff;
   --body-text-color:#202c40;
-  --body-text-color-subdued:#71869a;
+  --body-text-color-subdued:#526579;
   --border-color-primary:#dce5ee;
   background:#ffffff !important; color:#202c40; box-sizing:border-box;
 }
@@ -130,13 +130,33 @@ body {background: #ffffff;}
 
 def app_theme():
     import gradio as gr
-    return gr.themes.Soft(primary_hue='teal', neutral_hue='slate',
-                          font=['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']).set(
+
+    theme = gr.themes.Soft(
+        primary_hue='teal',
+        neutral_hue='slate',
+        font=['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    ).set(
+        body_background_fill='#ffffff',
+        body_text_color='#202c40',
+        body_text_color_subdued='#526579',
+        background_fill_primary='#ffffff',
+        background_fill_secondary='#f3f6fa',
+        block_background_fill='#ffffff',
+        border_color_primary='#dce5ee',
+        input_background_fill='#ffffff',
+        input_background_fill_focus='#ffffff',
+        input_placeholder_color='#526579',
         button_primary_background_fill='#245b4b',
         button_primary_background_fill_hover='#174536',
         button_primary_text_color='#ffffff',
-        button_primary_background_fill_dark='#245b4b',
-        button_primary_background_fill_hover_dark='#174536',
-        button_primary_text_color_dark='#ffffff',
         block_radius='16px',
     )
+    # Keep controls consistent with the custom light layout, even when the
+    # OS/browser requests dark mode. Cover tables, labels and secondary buttons
+    # as well as inputs by mirroring all paired Gradio theme tokens.
+    values = theme.to_dict()['theme']
+    return theme.set(**{
+        key: values[key[:-5]]
+        for key in values
+        if key.endswith('_dark') and key[:-5] in values
+    })
