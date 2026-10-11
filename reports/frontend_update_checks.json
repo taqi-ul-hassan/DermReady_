@@ -1,0 +1,19 @@
+{
+  "assessment_api": "passed",
+  "retake_comparison_api": "passed",
+  "tabs": [
+    "Check a photograph",
+    "Compare a retake",
+    "Evidence & limits"
+  ],
+  "reference_css_loaded": true,
+  "mode": "features_only",
+  "model_changes": false,
+  "browser_visual_comparison": "not performed in this workspace",
+  "pytest": {
+    "passed": 6,
+    "skipped": 1,
+    "skip_reason": "Private trained-artifact round-trip unavailable in this fresh workspace"
+  }
+}
+

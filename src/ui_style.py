@@ -23,7 +23,7 @@ HERO = '''
 CSS = '''
 .gradio-container {width:100% !important; min-width:0 !important; max-width: 1180px !important; margin: auto !important;
   padding: 28px 24px 48px !important; font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;}
-body {background: #f5f7f5;}
+body {background: #ffffff;}
 .gradio-container > .main {padding:0 !important; width:100% !important; min-width:0 !important;}
 .gradio-container .main > .wrap {padding:0 !important; width:100% !important; min-width:0 !important;}
 .derm-hero {position: relative; overflow: hidden; background: #102f36;
@@ -88,6 +88,38 @@ body {background: #f5f7f5;}
   .journey {grid-template-columns:1fr; gap:8px;} .journey>div {padding:12px;}
   .capture-card {padding:15px !important;} .tab-nav button {padding:10px 12px !important;}
 }
+/* Reference light palette and accessible tab states across Gradio markup. */
+.gradio-container {
+  --body-background-fill:#ffffff;
+  --block-background-fill:#ffffff;
+  --body-text-color:#202c40;
+  --body-text-color-subdued:#71869a;
+  --border-color-primary:#dce5ee;
+  background:#ffffff !important; color:#202c40; box-sizing:border-box;
+}
+.gradio-container [role="tablist"] {
+  display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid #dce5ee;
+}
+.gradio-container [role="tab"] {
+  border-radius:0 !important; background:transparent !important;
+  color:#202c40 !important; border-bottom:2px solid transparent !important;
+  padding:12px 16px !important;
+}
+.gradio-container [role="tab"][aria-selected="true"] {
+  color:#00a99c !important; background:transparent !important;
+  border-bottom-color:#00b9ab !important;
+}
+.gradio-container button:focus-visible {
+  outline:3px solid #82dacf !important; outline-offset:3px;
+}
+.gradio-container .capture-card {min-width:0 !important;}
+.gradio-container #capture-preview {height:326px;}
+.gradio-container .privacy-footer {overflow-wrap:anywhere;}
+@media(max-width:600px) {
+  .gradio-container [role="tab"] {font-size:12px !important; padding:10px 9px !important;}
+  .gradio-container #capture-preview {height:260px;}
+}
+
 '''
 
 
