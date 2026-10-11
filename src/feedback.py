@@ -17,24 +17,41 @@ def quality_flags(features,thresholds):
     return flags
 
 
-def decide_state(score,policy,features,metadata,thresholds):
+def decide_with_reason(score,policy,features,metadata,thresholds):
+    """Same frozen decision rules, with a specific explanation for the output."""
     flags=quality_flags(features,thresholds)
-    # These checks identify unsupported formats/content extremes, not skin detection.
-    unsupported=metadata.get('alpha_composited') or metadata.get('original_mode') not in ('RGB','RGBA') or features['aspect_ratio']>4
-    if unsupported or 'unusual_texture' in flags or features['contrast_std']<.01 or score is None or not math.isfinite(score):
-        return UNCERTAIN,flags
-    if score<=policy['retake_below']:return RETAKE,flags
+    if metadata.get('alpha_composited'):
+        return UNCERTAIN,flags,'Transparency was composited onto white; this input is outside the validated color-photo path.'
+    if metadata.get('original_mode') not in ('RGB','RGBA'):
+        return UNCERTAIN,flags,'The original image color mode is outside the validated RGB-photo path.'
+    if features['aspect_ratio']>4:
+        return UNCERTAIN,flags,'The image has an extreme aspect ratio outside the validated input range.'
+    if 'unusual_texture' in flags:
+        return UNCERTAIN,flags,'The texture signal is above the reference range; the model cannot support acceptance.'
+    if features['contrast_std']<.01:
+        return UNCERTAIN,flags,'The image is nearly uniform, so there is too little measured contrast for a supported assessment.'
+    if score is None or not math.isfinite(score):
+        return UNCERTAIN,flags,'A valid fitted-model score is unavailable.'
+    if score<=policy['retake_below']:
+        return RETAKE,flags,'The research score is in the retake band; this does not establish a specific photographic defect.'
     if score>=policy['suitable_above']:
-        return (UNCERTAIN if flags else SUITABLE),flags
-    return UNCERTAIN,flags
+        if flags:
+            return UNCERTAIN,flags,'The score reaches the acceptance band, but capture indicators block acceptance: '+', '.join(flags)+'.'
+        return SUITABLE,flags,'The score reaches the acceptance band and no capture guard is triggered; clinical adequacy is not established.'
+    return UNCERTAIN,flags,'The research score is between the retake and acceptance thresholds; the model does not support either decision.'
+
+
+def decide_state(score,policy,features,metadata,thresholds):
+    state,flags,_=decide_with_reason(score,policy,features,metadata,thresholds)
+    return state,flags
 
 
 def make_feedback(state,flags):
     suggestions=[]
     if 'unusual_texture' in flags:suggestions.append('The high-frequency texture signal is outside the reference range. This prototype cannot support an acceptance decision for this image.')
-    if 'focus' in flags:suggestions.append('The focus proxy is low. Hold the camera steady, tap to focus, and check that the area is sharp.')
-    if 'dark' in flags:suggestions.append('The exposure signal is low. Consider even, diffuse lighting and avoid shadows.')
-    if 'bright' in flags:suggestions.append('The exposure signal is high. Avoid glare, direct flash, and overexposed areas.')
+    if 'focus' in flags:suggestions.append('The focus proxy is low; lighting, texture, and smooth surfaces can also affect it. Check visible sharpness before retaking; hold the camera steady and tap to focus if needed.')
+    if 'dark' in flags:suggestions.append('The brightness signal is below the reference range. Skin tone and background can affect it; this does not establish underexposure. If shadows hide detail, consider even, diffuse lighting.')
+    if 'bright' in flags:suggestions.append('Brightness or the bright-pixel signal is above the reference range; background can affect it. If glare washes out detail, avoid direct flash and overexposed areas.')
     if 'resolution' in flags:suggestions.append('The image is small. Upload the original photograph rather than a resized screenshot.')
     if state==RETAKE and not suggestions:suggestions.append('The case-trained estimate is low, but no specific capture defect was established. Check the image against your clinician\'s requested views; retaking may not resolve the issue.')
     if state==UNCERTAIN:suggestions.append('The prototype cannot make a supported acceptance decision. Follow your clinician\'s instructions.')

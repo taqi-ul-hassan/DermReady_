@@ -41,3 +41,7 @@ App binds to localhost. It does not append uploads to training data or logs. Gra
 ## Attribution and maintenance
 
 Original code: MIT. timm/MobileNet initialization: Ross Wightman / timm, Apache 2.0. Dependencies and dataset sources are linked in README. ChatGPT/Codex assisted implementation and documentation. Evaluation/version provenance is stored in reports/test_freeze.json and reports/robustness_protocol.json. Change the scientific policy only with separate independent evaluation.
+
+## Technical review update
+
+See [technical and bias audit](TECHNICAL_BIAS_AUDIT.md) for uncertainty causes, available class-conditional checks and unresolved demographic/generalization risks. Software updates add live decision explanations, artifact validation and per-session stale-result invalidation; they do not change fitted weights or frozen thresholds. The large under-header notice is removed at user request; the notice remains in Evidence & limits. No universal clinical accuracy or demographic fairness is established.

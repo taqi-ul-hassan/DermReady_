@@ -1,0 +1,44 @@
+{
+  "checks": {
+    "pytest_passed": 43,
+    "pytest_skipped": 1,
+    "skip_reason": "Private trained-artifact round-trip unavailable in this review workspace",
+    "live_upload_api": "passed",
+    "retake_comparison_api": "passed",
+    "decision_parity_cases": 200,
+    "uploaded_result_reset": "tested",
+    "inflight_invalidation": "tested",
+    "invalid_artifact_fallback": "tested"
+  },
+  "baseline_uncertainty": {
+    "total": 61,
+    "cases": 107,
+    "rate": 0.5700934579439252,
+    "gradable": {
+      "uncertain": 48,
+      "cases": 84,
+      "rate": 0.5714285714285714
+    },
+    "ungradable": {
+      "uncertain": 13,
+      "cases": 23,
+      "rate": 0.5652173913043478
+    }
+  },
+  "frozen_baseline_bands": {
+    "retake_below": 0.6734272431621107,
+    "suitable_above": 0.9204476710255686
+  },
+  "demographic_fairness": {
+    "established": false,
+    "empirical_subgroup_analysis_performed": false,
+    "reason": "No joined private demographic/outcome table available in this review workspace"
+  },
+  "model_weights_changed": false,
+  "decision_thresholds_changed": false,
+  "new_clinical_validation": false,
+  "universal_accuracy_established": false,
+  "notice_below_header_removed": true,
+  "notice_in_evidence_retained": true,
+  "browser_visual_comparison": "not performed in this workspace"
+}

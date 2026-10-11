@@ -56,8 +56,6 @@ body {background: #ffffff;}
   border-radius:10px; padding:10px 7px; font-weight:700;}
 .journey strong {font-size:13px; color:#183c37;}
 .journey small {font-size:11px; color:#677b72; margin-top:4px;}
-#research-notice {padding:12px 16px; border-radius:12px; background:#fff8e9;
-  border:1px solid #ecdfc1; margin-bottom:4px; font-size:12px;}
 #mode-banner {font-size:12px; padding:6px 4px; color:var(--body-text-color-subdued);}
 .capture-card {border:1px solid var(--border-color-primary) !important; border-radius:20px !important;
   background:var(--block-background-fill) !important; padding:22px !important;}
@@ -119,6 +117,13 @@ body {background: #ffffff;}
   .gradio-container [role="tab"] {font-size:12px !important; padding:10px 9px !important;}
   .gradio-container #capture-preview {height:260px;}
 }
+
+/* Readable review text and tables at ordinary desktop zoom. */
+.gradio-container {font-size:15px !important;}
+.gradio-container .prose p, .gradio-container .prose li {font-size:14px !important; line-height:1.65;}
+.gradio-container textarea, .gradio-container table {font-size:14px !important; line-height:1.6;}
+.gradio-container .section-heading p {font-size:14px !important;}
+.gradio-container .privacy-footer {font-size:12px !important;}
 
 '''
 

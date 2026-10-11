@@ -12,8 +12,8 @@ def primary_action(result):
     actions = {
         'unusual_texture': 'Use an original photograph; this texture is outside the reference range.',
         'focus': 'Hold the camera steady and tap to focus on the area of interest.',
-        'dark': 'Try even, diffuse lighting and avoid shadows.',
-        'bright': 'Reduce glare or direct flash and preserve visible detail.',
+        'dark': 'Inspect shadows and visible detail; low brightness alone does not establish underexposure.',
+        'bright': 'Inspect glare and visible detail; high brightness alone does not establish overexposure.',
         'resolution': 'Use the full-resolution original instead of a screenshot.',
     }
     for flag, action in actions.items():

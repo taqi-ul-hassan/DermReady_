@@ -10,13 +10,14 @@ from src.inference import Predictor
 from src.feedback import NOTICE
 from src.capture_review import compare_captures, evidence_summary, primary_action
 from src.ui_style import HERO, CSS, app_theme
+from src.session_review import ReviewSession
 
 ROOT = Path(__file__).resolve().parent
 
 
 def build_app(predictor=None):
     predictor=predictor or Predictor(os.environ.get('DERMREADY_CHECKPOINT_DIR','checkpoints'))
-    def analyze(filepath):
+    def analyze_raw(filepath):
         if not filepath:return None,'Choose a photograph',[], 'Upload one PNG, JPEG, or still WebP image.', ''
         try:
             result=predictor.predict(filepath)
@@ -35,9 +36,9 @@ def build_app(predictor=None):
         if result['score'] is not None:detail+=f"Uncalibrated research score: {result['score']:.3f}. "
         detail+='Single-image estimate uses weak case-label validation. The score is not a probability of clinical adequacy.'
         preview=ImageOps.contain(result['preview'],(720,720),Image.Resampling.LANCZOS)
-        guidance = 'Next action: ' + primary_action(result) + '\n\n' + result['feedback']
+        guidance = 'Why this result: ' + result['decision_reason'] + '\n\nNext action: ' + primary_action(result) + '\n\n' + result['feedback']
         return preview,result['state'].capitalize(),indicators,guidance,detail
-    def compare(original, retake):
+    def compare_raw(original, retake):
         try:
             first, second, rows, notes = compare_captures(original, retake)
             return (ImageOps.contain(first,(720,720)), ImageOps.contain(second,(720,720)), rows, notes)
@@ -45,9 +46,30 @@ def build_app(predictor=None):
             return None,None,[],str(exc)
         except Exception:
             return None,None,[],'Comparison could not be completed. Try two valid still photographs.'
+    def analyze(filepath,session):
+        result=session.run(lambda:analyze_raw(filepath))
+        return result if result is not None else tuple(gr.skip() for _ in range(5))
+    def compare(original,retake,session):
+        result=session.run(lambda:compare_raw(original,retake))
+        return result if result is not None else tuple(gr.skip() for _ in range(4))
+    def reset_review(filepath,session):
+        session.invalidate()
+        if not filepath:return None,'Choose a photograph',[],'Upload one PNG, JPEG, or still WebP image.',''
+        return None,'Awaiting assessment',[],'Photograph changed. Click Check photograph to assess the current upload.',''
+    def reset_comparison(original,retake,session):
+        session.invalidate()
+        note='Photographs changed. Compare the current captures again.' if original and retake else 'Choose both the original photograph and a new capture.'
+        return None,None,[],note
+    def clear_review(session):
+        session.invalidate()
+        return None,None,'',[],'',''
+    def clear_comparison(session):
+        session.invalidate()
+        return None,None,None,None,[],''
     with gr.Blocks(title='DermReady',analytics_enabled=False,delete_cache=(30,60)) as demo:
         gr.HTML(HERO)
-        gr.Markdown(NOTICE,elem_id='research-notice')
+        review_session=gr.State(ReviewSession(),time_to_live=3600)
+        comparison_session=gr.State(ReviewSession(),time_to_live=3600)
         mode_label = 'Capture indicators only — fitted artifacts are unavailable' if predictor.mode == 'features_only' else 'Fitted research system: ' + predictor.mode
         gr.Markdown('**Current mode:** ' + mode_label,elem_id='mode-banner')
         with gr.Tabs():
@@ -85,18 +107,24 @@ def build_app(predictor=None):
                 differences=gr.Dataframe(headers=['Indicator','Original','New capture','Change'],datatype=['str','number','number','number'],interactive=False)
                 comparison_notes=gr.Textbox(label='What changed — and what it means',lines=6,interactive=False)
                 compare_clear=gr.Button('Clear comparison')
-                compare_button.click(compare,inputs=[original,retake],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name='compare_captures',concurrency_limit=1)
-                compare_clear.click(lambda:(None,None,None,None,[],''),outputs=[original,retake,original_preview,retake_preview,differences,comparison_notes],api_name=False)
+                compare_button.click(compare,inputs=[original,retake,comparison_session],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name='compare_captures',concurrency_limit=1)
+                compare_clear.click(clear_comparison,inputs=comparison_session,outputs=[original,retake,original_preview,retake_preview,differences,comparison_notes],api_name=False,queue=False)
+                for capture in (original,retake):
+                    capture.change(reset_comparison,inputs=[original,retake,comparison_session],outputs=[original_preview,retake_preview,differences,comparison_notes],api_name=False,queue=False)
             with gr.Tab('Evidence & limits'):
+                gr.Markdown(NOTICE)
                 gr.Markdown('### Frozen evaluation, separate from your upload\n107 held-out cases: 23 ungradable and 84 gradable. Each contributes one first-listed image with a **weak case-label proxy**, not a clinical image-level label. The default baseline returned 12 suitable, 34 retake, and 61 uncertain outputs.')
                 evidence=evidence_summary(ROOT/'reports/heldout_test.json')
                 gr.Dataframe(value=evidence,headers=['System','False acceptance','False rejection','Decision coverage','Uncertain'],datatype=['str']*5,interactive=False)
                 gr.Markdown('Error denominators include all cases of the corresponding class, including uncertain outputs. Coverage means a suitable or retake output. Baseline false acceptance: **1/23**, 95% interval **0.8–21.0%**; false rejection: **25/84**. These small-sample results do not establish clinical safety. The baseline was selected on validation; no model or threshold was changed after the test. No skin detector, framing assessment, or subgroup assurance is established.')
-                gr.Image(value=str(ROOT/'reports/robustness_states.png'),label='Frozen blur and lighting sensitivity experiments',interactive=False)
+                gr.Markdown('**Why uncertain is common:** the default pipeline was uncertain on 61/107 cases. Its wide score band and capture guards reflect limited evidence. Brightness depends on skin tone, background and lighting, and is not a skin-tone measurement. Performance by skin tone, age, condition and device is not established. Dermoscopic, histology, pediatric and outside-source images have no separate validation. See docs/TECHNICAL_BIAS_AUDIT.md for the review.')
+                gr.Markdown('#### Frozen blur and lighting sensitivity experiments')
+                gr.Image(value=str(ROOT/'reports/robustness_states.png'),show_label=False,interactive=False)
                 gr.Markdown('Edited images have no new clinical labels. These experiments demonstrate sensitivity to synthetic changes, not clinical accuracy. See reports/heldout_test.md, reports/robustness.md and docs/MODEL_CARD.md in the repository for full evidence.')
         gr.Markdown('**Upload handling:** the application does not save uploads in its dataset or logs. Gradio uses temporary upload/preview files, with cleanup configured for files older than 60 seconds, checked every 30 seconds. Clearing resets the view; browser and hosting caches may persist. This demo binds to localhost by default.',elem_classes='privacy-footer')
-        button.click(analyze,inputs=upload,outputs=[preview,state,indicators,feedback,detail],api_name='assess',concurrency_limit=1)
-        clear.click(lambda:(None,None,'',[],'',''),outputs=[upload,preview,state,indicators,feedback,detail],api_name=False)
+        button.click(analyze,inputs=[upload,review_session],outputs=[preview,state,indicators,feedback,detail],api_name='assess',concurrency_limit=1)
+        clear.click(clear_review,inputs=review_session,outputs=[upload,preview,state,indicators,feedback,detail],api_name=False,queue=False)
+        upload.change(reset_review,inputs=[upload,review_session],outputs=[preview,state,indicators,feedback,detail],api_name=False,queue=False)
     return demo
 
 
