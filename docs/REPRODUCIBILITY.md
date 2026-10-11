@@ -35,7 +35,7 @@ Final evaluation scripts refuse to overwrite an existing report. Rerun a frozen 
 
 A separate workspace and genuinely new virtual environment installed the complete CPU lock from package indexes. No existing site-packages were inherited. The dependency consistency check, all 30 tests, environment imports, synthetic MobileNet CPU forward, real trained-artifact round trips, Gradio construction and a local HTTP upload/private-path-blocking smoke test passed. Test records/data were not copied to this validation workspace; a synthetic private-file marker exercised HTTP blocking.
 
-This checks installation and app reproduction with frozen artifacts, not a second training run or independent replication of the scientific study. Linux/Python 3.12 is maintainer-tested. The user reported a working Windows setup; Windows automated execution and public hosting are not claimed. The GitHub Actions CPU workflow is configured; its remote execution has not been inspected.
+This checks installation and app reproduction with frozen artifacts, not a second training run or independent replication of the scientific study. Linux/Python 3.12 is maintainer-tested. The user reported a working Windows setup; Public hosting is not claimed. The comprehensive review additionally verified successful Linux and Windows CPU CI runs for dependencies, regression tests and synthetic app/API behavior; private trained-artifact inference is not exercised in public CI. See reports/project_review_checks.json.
 
 
 ## Evaluation integrity checks added during project review

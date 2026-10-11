@@ -24,7 +24,7 @@ The main performance limitation is supervision and distribution coverage, rather
 | Image cache | Distinct object paths with the same basename could collide in the flat cache. | Reject cache filename collisions before downloading; existing SCIN behavior is preserved. |
 | HTTP privacy test | Testing a nonexistent private path could yield weaker evidence than testing an actual file. | Smoke test now creates and cleans up a real temporary synthetic marker inside the blocked data directory. |
 | Test discovery | Generic pytest discovery could import evaluation scripts as tests. | Added pytest.ini to scope discovery to tests/. |
-| Windows coverage | The user uses Windows, but CI was configured only for Linux. | Added Linux/Windows CPU CI matrix and installation-check execution. Remote passing status must be checked in Actions; configuration alone is not validation. |
+| Windows coverage | The user uses Windows, but CI was configured only for Linux. | Added Linux/Windows CPU CI matrix and installation-check execution. Both Linux and Windows jobs passed; the verified run is linked in project_review_checks.json. Public CI uses synthetic inputs and has no private trained artifacts. |
 | Documentation | Privacy/reports pages still said implementation/evaluation were pending; test counts and screenshot wording were stale. | Updated operational documentation, report index and test guide. README links this review and labels the earlier screenshot revision. |
 
 ## Scientific and bias review
@@ -47,7 +47,7 @@ No thresholds, trained weights, preferred model or published accuracy metrics we
 
 The review uses the current source and public aggregate reports. Private weights, original dataset, split manifests and per-case prediction files are absent from this workspace. Automated integrity tests use synthetic manifests and altered-input scenarios; app checks use artificial capture targets. The private trained round-trip remains skipped here. No new patient evaluation, retraining, demographic audit, clinical validation, external deployment or browser screenshot comparison was performed.
 
-Current executable results are recorded in reports/project_review_checks.json. Existing scientific reports remain historical evidence for the exact published artifacts. Source changes do not retroactively validate new inputs or installations.
+Current executable results and the successful Linux/Windows CI run are recorded in reports/project_review_checks.json. Existing scientific reports remain historical evidence for the exact published artifacts. Source changes do not retroactively validate new inputs or installations.
 
 ## Research priorities that would materially improve the project
 

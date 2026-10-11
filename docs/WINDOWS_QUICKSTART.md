@@ -33,7 +33,7 @@ Download/extract a fresh repository ZIP into a new folder. Copy your private che
 - Connection refused: the terminal must still be running; wait for the local URL.
 - Port in use: stop the earlier process or use `app.py --port 7861`, then open http://127.0.0.1:7861.
 
-The maintainer's fresh environment checks are Linux/Python 3.12; the user reported a working Windows install. Automated Windows testing is not claimed.
+The maintainer's fresh trained-artifact checks are Linux/Python 3.12. The user reported a working Windows installation. Linux and Windows CPU CI passed for the comprehensive review, including dependencies, regression tests and live synthetic app APIs; private trained-artifact execution is not part of public CI. See reports/project_review_checks.json.
 
 
 ## Verify the installation

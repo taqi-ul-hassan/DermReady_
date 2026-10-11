@@ -16,6 +16,9 @@
   "demographic_fairness_evaluation": false,
   "frozen_weights_policy_and_scientific_results_changed": false,
   "browser_visual_comparison": "not performed",
-  "windows_ci": "configured; remote outcome not yet verified",
-  "manifest_integrity": "synthetic altered-input and split-metadata tests passed"
+  "windows_ci": "passed",
+  "manifest_integrity": "synthetic altered-input and split-metadata tests passed",
+  "linux_ci": "passed",
+  "ci_verified_commit": "5611ba975439ce1cc03055ac3194b93876a95eae",
+  "ci_run_url": "https://github.com/taqi-ul-hassan/DermReady_/actions/runs/38114810987"
 }
